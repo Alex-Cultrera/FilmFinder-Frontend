@@ -1,7 +1,6 @@
-import SearchIcon from "./search.svg";
 
-
-export const SearchBox = ({searchTerm, setSearchTerm, searchMovies, SearchIcon, handleSearch}) => {
+export const SearchBox = ({searchTerm, setSearchTerm,
+                  searchMovies, SearchIcon, handleSearch}) => {
 function handleKeyPress(e) {
     if (e.key === 'Enter') {
         searchMovies(searchTerm)
@@ -13,15 +12,20 @@ function handleKeyPress(e) {
                 placeholder="Search for movies"
                 value={searchTerm}
                 onChange={(e) => {
-                    setSearchTerm(e.target.value)
-                    handleSearch(searchTerm)
+                    const newSearchTerm = e.target.value;
+                    setSearchTerm(newSearchTerm);
+                    handleSearch(newSearchTerm);
                 }}
                 onKeyPress={handleKeyPress}
-            /><img src={SearchIcon}
+            />
+            <img src={SearchIcon}
                    alt="search"
                    onClick={() => searchMovies(searchTerm)}
-        />
+            />
         </div>
     )
 }
+
+
+
 
