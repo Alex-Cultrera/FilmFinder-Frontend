@@ -1,5 +1,6 @@
 import React, {useState, useEffect, useRef } from 'react';
 import '../styles/HamburgerMenu.css';
+import {Link} from "react-router-dom";
 
 const HamburgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -46,10 +47,10 @@ const HamburgerMenu = () => {
                 ref={menuRef}
             >
                 <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#login">Login</a></li>
-                    <li><a href="#register">Register</a></li>
-                    <li><a href="#settings">Settings</a></li>
+                    <li><Link to="/">Home</Link></li>
+                    <li><Link to="/login">Login</Link></li>
+                    <li><Link to="/register">Register</Link></li>
+                    <li><Link to="/settings">Settings</Link></li>
                 </ul>
             </div>
         </div>

@@ -50,8 +50,6 @@ const Home = () => {
                 FilmFind<HamburgerMenu/>r
             </h1>
 
-            {/*<HamburgerMenu/>*/}
-
             <SearchBox
                 SearchIcon={SearchIcon}
                 setSearchTerm={setSearchTerm}

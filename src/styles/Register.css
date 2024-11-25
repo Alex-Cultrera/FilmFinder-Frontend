@@ -1,0 +1,42 @@
+
+.register {
+    padding: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+h1 {
+    font-size: 3rem;
+    letter-spacing: 0.9px;
+    color: #D9B08C;
+    width: fit-content;
+}
+
+.container {
+    width: 100%;
+    margin-top: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+
+@media screen and (max-width: 600px) {
+    .register {
+        padding: 4rem 2rem;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .register {
+        padding: 4rem 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+}
