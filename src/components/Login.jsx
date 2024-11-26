@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import HamburgerMenu from "./HamburgerMenu";
 import '../styles/Login.css';
 import {Link} from "react-router-dom";
+import GoogleIcon from '../images/googleIcon.svg';
+import FacebookIcon from '../images/facebookIcon.svg';
 
 
 function Login() {
@@ -84,10 +86,22 @@ function Login() {
 
                 <div className="social-login">
                     <button onClick={handleGoogleLogin} className="btn google-btn">
-                        Continue with Google
+                        <img
+                            src={GoogleIcon}
+                            alt="Google"
+                        />
+                        <span>
+                            Continue with Google
+                        </span>
                     </button>
                     <button onClick={handleFacebookLogin} className="btn facebook-btn">
-                        Continue with Facebook
+                        <img
+                            src={FacebookIcon}
+                            alt="Facebook"
+                        />
+                        <span>
+                            Continue with Facebook
+                        </span>
                     </button>
                 </div>
 

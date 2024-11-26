@@ -113,7 +113,18 @@ h2 {
     margin-top: 20px;
 }
 
+.google-btn img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
 .google-btn {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
     background-color: #2C3531;
     color: white;
 }
@@ -122,7 +133,18 @@ h2 {
     background-color: #D9B08C;
 }
 
+.facebook-btn img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
 .facebook-btn {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
     background-color: #2C3531;
     color: white;
 }

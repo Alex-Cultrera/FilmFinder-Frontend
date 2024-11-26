@@ -18,9 +18,10 @@ function handleKeyPress(e) {
                 }}
                 onKeyPress={handleKeyPress}
             />
-            <img src={SearchIcon}
-                   alt="search"
-                   onClick={() => searchMovies(searchTerm)}
+            <img
+                src={SearchIcon}
+                alt="search"
+                onClick={() => searchMovies(searchTerm)}
             />
         </div>
     )
