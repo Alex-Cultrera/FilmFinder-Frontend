@@ -26,7 +26,6 @@ h1 {
     letter-spacing: 0.9px;
     color: #D9B08C;
     width: fit-content;
-    margin-bottom: 5px;
 }
 
 h2 {
@@ -35,11 +34,36 @@ h2 {
     color: #D9B08C;
 }
 
+h4 {
+    text-align: center;
+    font-size: 16px;
+    color: #D9B08C;
+    font-weight: normal;
+}
+
 .email {
     padding: 12px;
     font-size: 16px;
     border: none;
     border-radius: 5px;
+}
+
+.firstName, .lastName {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+.password {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+.error-message {
+    color: red;
 }
 
 .btn {

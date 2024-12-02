@@ -1,10 +1,24 @@
 
-.register {
+.header {
     padding: 4rem;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+}
+
+.register {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #404c45;
+}
+
+.form-signin {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
 h1 {
@@ -14,29 +28,143 @@ h1 {
     width: fit-content;
 }
 
-.container {
-    width: 100%;
-    margin-top: 3rem;
+h2 {
+    text-align: center;
+    font-size: 24px;
+    color: #D9B08C;
+}
+
+
+.email {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+}
+
+
+.btn {
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.continue-btn {
+    background-color: #2C3531;
+    color: white;
+    text-align: center;
+}
+
+.continue-btn:hover {
+    background-color: #D9B08C;
+}
+
+.error-message {
+    color: red;
+}
+
+.needToLogin {
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.account {
+    font-size: 15px;
+    color: #D9B08C;
+}
+
+.loginLink {
+    font-family: Arial;
+    font-size: 15px;
+    text-decoration: none;
+    color: white;
+}
+
+.loginLink:hover {
+    color: #1c1d1f;
+}
+
+.line-with-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+}
+
+.line-left, .line-right {
+    flex-grow: 1;
+    border: none;
+    border-top: 2px solid #D9B08C;
+}
+
+.text {
+    margin: 0 10px;
+    font-weight: bold;
+    color: #D9B08C;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.google-btn img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.google-btn {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #2C3531;
+    color: white;
+}
+
+.google-btn:hover {
+    background-color: #D9B08C;
+}
+
+.facebook-btn img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.facebook-btn {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #2C3531;
+    color: white;
+}
+
+.facebook-btn:hover {
+    background-color: #D9B08C;
 }
 
 
-@media screen and (max-width: 600px) {
-    .register {
-        padding: 4rem 2rem;
-    }
-}
 
-@media screen and (max-width: 400px) {
-    .register {
-        padding: 4rem 1rem;
-    }
 
-    h1 {
-        font-size: 2rem;
-    }
 
-}
+
+
+
+
+
+

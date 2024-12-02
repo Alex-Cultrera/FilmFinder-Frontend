@@ -1,79 +1,117 @@
 import React, { useState } from 'react';
-import HamburgerMenu from "./HamburgerMenu";
+import axios from 'axios';
+import {Link, useNavigate} from "react-router-dom";
+import NavBar from "./NavBar";
 import '../styles/Register.css';
-import {Link} from "react-router-dom";
+import GoogleIcon from "../images/googleIcon.svg";
+import FacebookIcon from "../images/facebookIcon.svg";
+
 
 
 function Register() {
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:8080/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username, password }),
-        });
+        setLoading(true);
+        setError(null);
 
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('jwt', data); // Store JWT in localStorage
-            alert('Login successful');
-        } else {
-            alert('Invalid credentials');
+        try {
+            const response = await axios.post('http://localhost:8080/api/auth/check-email', {
+                email,
+            });
+
+            if (response.data.message === "Email is available") {
+                navigate('/password', {state: {email}});
+            } else {
+                setError(response.data.message);
+            }
+        } catch (error) {
+            setError(error.response?.data?.message || 'An error occurred while checking the email.');
+        } finally {
+            setLoading(false);
         }
     };
 
+    const handleGoogleLogin = () => {
+        // alert('Continue with Google');
+        // Add actual Google login logic here
+    };
+
+    const handleFacebookLogin = () => {
+        // alert('Continue with Facebook');
+        // Add actual Facebook login logic here
+    };
+
+
     return (
+        <div>
+            <span className="nav">
+                <NavBar/>
+            </span>
 
-        <div className="register">
+            <div className="register">
+                <form className="form-signin" onSubmit={handleSubmit}>
+                    <h2>
+                        Create an account
+                    </h2>
+                    <input
+                        className="email"
+                        type="email"
+                        placeholder="Email address"
+                        value={email}
+                        onChange={handleEmailChange}
+                    />
+                    {error && <div className="error-message">{error}</div>}
+                    <button type="submit" className="btn continue-btn" disabled={loading}>
+                        {loading ? 'Checking...' : 'Continue'}
+                    </button>
+                </form>
 
-            <h1>
-                FilmFind<HamburgerMenu/>r
-            </h1>
+                <div className="needToLogin">
+                    <span className="account">Already have an account?</span>
+                    <Link className="loginLink" to="/login">Login</Link>
+                </div>
 
-            <h2>
-                Create an account
-            </h2>
+                <div className="line-with-text">
+                    <hr className="line-left"/>
+                    <span className="text">OR</span>
+                    <hr className="line-right"/>
+                </div>
 
+                <div className="social-login">
+                    <button onClick={handleGoogleLogin} className="btn google-btn">
+                        <img
+                            src={GoogleIcon}
+                            alt="Google"
+                        />
+                    <span>
+                        Continue with Google
+                    </span>
+                    </button>
+                    <button onClick={handleFacebookLogin} className="btn facebook-btn">
+                        <img
+                            src={FacebookIcon}
+                            alt="Facebook"
+                        />
+                    <span>
+                        Continue with Facebook
+                    </span>
+                    </button>
+                </div>
 
-            <form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    placeholder="Email address"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit">Continue</button>
-            </form>
-
-            <h4>
-                Already have an account?
-            </h4>
-            <Link to="/login">Login</Link>
-
-            <h3>
-                OR
-            </h3>
-
-            <div>
-                Continue with Google
             </div>
-            <div>
-                Continue with Facebook
-            </div>
-
         </div>
-    );
-}
+        );
+    }
 
 export default Register;
+

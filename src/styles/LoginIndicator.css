@@ -1,0 +1,62 @@
+
+.loginIndicator {
+    font-family: var(--font-roboto);
+    color: #D9B08C;
+    font-size: 20px;
+}
+
+.hello {
+    display: flex;
+    align-items: center;
+}
+
+.guest {
+    display: flex;
+    align-items: center;
+}
+
+.profile-icon {
+    font-size: 30px;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+.dropdown {
+    /*display: none;*/
+    position: absolute;
+    top: 60px;
+    right: 10px;
+    background-color: #333;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    z-index: 100;
+    min-width: 150px;
+}
+
+
+.dropdown.open {
+    display: block;
+}
+
+.dropdown ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.dropdown li {
+    margin: 10px 0;
+}
+
+.dropdown a {
+    text-decoration: none;
+    color: #fff;
+    font-size: 18px;
+    display: block;
+}
+
+.dropdown a:hover {
+    background-color: #444;
+    padding-left: 10px;
+}

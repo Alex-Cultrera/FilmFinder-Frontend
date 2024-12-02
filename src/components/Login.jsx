@@ -1,35 +1,58 @@
-import React, { useState } from 'react';
-import HamburgerMenu from "./HamburgerMenu";
+import React, { useState, useEffect } from 'react';
+import {Link, useNavigate} from "react-router-dom";
+import axios from 'axios';
+import NavBar from "./NavBar";
 import '../styles/Login.css';
-import {Link} from "react-router-dom";
 import GoogleIcon from '../images/googleIcon.svg';
 import FacebookIcon from '../images/facebookIcon.svg';
 
 
 function Login() {
     const [email, setEmail] = useState('');
-    // const [password, setPassword] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('jwtToken');
+        if (token) {
+            navigate('/dashboard');
+        }
+    }, [navigate]);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
     };
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch('http://localhost:8080/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email }),
-        });
+        setLoading(true);
+        setError(null);
 
-        if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('jwt', data); // Store JWT in localStorage
-            alert('Login successful');
-        } else {
-            alert('Invalid credentials');
+        const loginApiUrl = 'http://localhost:8080/api/auth/login';
+
+        try {
+            const response = await axios.post(loginApiUrl, {
+                email,
+                password
+            });
+            const { token } = response.data;
+            if (response.status === 200) {
+                localStorage.setItem('jwtToken', token);
+                navigate('/dashboard');
+            }
+        } catch (error) {
+            if (error.response) {
+                setError(error.response.data.message || 'Invalid credentials');
+            } else {
+                setError('Something went wrong. Please try again.');
+            }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -43,13 +66,13 @@ function Login() {
         // Add actual Facebook login logic here
     };
 
+    const isFormValid = email && password && !loading;
+
     return (
         <div>
-            <div className="header">
-                <h1>
-                    FilmFind<HamburgerMenu/>r
-                </h1>
-            </div>
+            <span className="nav">
+                <NavBar/>
+            </span>
 
             <div className="login">
                 <form className="form-signin" onSubmit={handleSubmit}>
@@ -58,19 +81,30 @@ function Login() {
                     </h2>
                     <input
                         className="email"
-                        type="text"
+                        type="email"
                         placeholder="Email address"
                         value={email}
                         onChange={handleEmailChange}
+                        required
                     />
-                    {/*<input*/}
-                    {/*    type="password"*/}
-                    {/*    placeholder="Password"*/}
-                    {/*    value={password}*/}
-                    {/*    onChange={(e) => setPassword(e.target.value)}*/}
-                    {/*/>*/}
-                    <button type="submit" className="btn continue-btn">Continue</button>
-                    {/*<button type="submit">Forgot Password?</button>*/}
+                    <input
+                        className="password"
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={handlePasswordChange}
+                        required
+                    />
+
+                    {error && <div className="error">{error}</div>}
+
+                    <button
+                        type="submit"
+                        className="btn continue-btn"
+                        disabled={loading || !isFormValid}
+                    >
+                        {loading ? 'Logging in...' : 'Continue'}
+                    </button>
                 </form>
 
                 <div className="needToRegister">
