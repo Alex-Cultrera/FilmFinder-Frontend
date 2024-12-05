@@ -40,9 +40,8 @@ function Login() {
                 email,
                 password
             });
-            const { token } = response.data;
-            if (response.status === 200) {
-                localStorage.setItem('jwtToken', token);
+            if (response.data.token) {
+                localStorage.setItem('jwt', response.data.token);
                 navigate('/dashboard');
             }
         } catch (error) {

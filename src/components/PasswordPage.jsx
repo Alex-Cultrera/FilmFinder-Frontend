@@ -50,8 +50,7 @@ const PasswordPage = () => {
                 password,
             });
 
-            if (response.data.token) {
-                localStorage.setItem('jwt', response.data.token);
+            if (response.data.message === "Thank you for registering") {
                 alert('Registration successful! You can now log in.');
                 navigate('/login');
             }
@@ -69,6 +68,12 @@ const PasswordPage = () => {
     //         navigate('/login');
     //     }
     // }, [email, navigate]);
+
+    // if (response.data.token) {
+    //     localStorage.setItem('jwt', response.data.token);
+    //     alert('Registration successful! You can now log in.');
+    //     navigate('/login');
+    // }
 
     return (
         <div>
