@@ -61,7 +61,7 @@ const LoginIndicator = () => {
             }
         };
         fetchUserName();
-    }, [userId, email, token]);
+    });
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
