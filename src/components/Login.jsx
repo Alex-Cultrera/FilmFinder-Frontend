@@ -15,7 +15,7 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('jwtToken');
+        const token = localStorage.getItem('access_token');
         if (token) {
             navigate('/dashboard');
         }
@@ -40,8 +40,11 @@ function Login() {
                 email,
                 password
             });
-            if (response.data.token) {
-                localStorage.setItem('jwt', response.data.token);
+            const { access_jwt, user_id } = response.data;
+            if (response.data) {
+                localStorage.setItem('access_token', access_jwt);
+                localStorage.setItem('user_id', user_id);
+                localStorage.setItem('user_email', email);
                 navigate('/dashboard');
             }
         } catch (error) {

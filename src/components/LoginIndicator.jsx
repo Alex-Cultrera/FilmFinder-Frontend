@@ -2,7 +2,8 @@ import React, {useState, useEffect, useRef} from 'react';
 import '../styles/LoginIndicator.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
+import axios from "axios";
 
 const LoginIndicator = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,25 +11,66 @@ const LoginIndicator = () => {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const photoRef = useRef(null);
     const userMenuRef = useRef(null);
+    const navigate = useNavigate();
+
+    const userId = localStorage.getItem('user_id');
+    const email = localStorage.getItem('user_email');
+    const token = localStorage.getItem('access_token');
+    const getNameApiUrl = 'http://localhost:8080/api/auth/name';
+
+    const getName = async () => {
+        try {
+            console.log('Fetching name for:', email);
+            if (!token) {
+                console.error('No token found');
+                return;
+            }
+            const response = await axios.post(getNameApiUrl,
+            {
+                    email
+                },
+            {
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+            if (response.data) {
+                const {first_name} = response.data;
+                localStorage.setItem('user_first_name', first_name);
+                setFirstName(first_name);
+            } else {
+                console.error('First name not found in response:');
+            }
+        } catch (error) {
+            console.error('Error fetching name:', error);
+        }
+    };
 
     useEffect(() => {
-        // modify this for real authentication logic
-        // Below assumes user info is stored in localStorage
-        const user = JSON.parse(localStorage.getItem('user'));
-
-        if (user) {
+        const fetchUserName = async () => {
+            if (userId && email && token) {
             setIsLoggedIn(true);
-            setFirstName(user.firstName);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, []);
+                try {
+                    await getName();
+                } catch (error) {
+                    console.error("Error fetching user name:", error);
+                }
+            } else {
+                setIsLoggedIn(false);
+            }
+        };
+        fetchUserName();
+    }, [userId, email, token]);
 
     const handleLogout = () => {
-        // Remove user data from localStorage and update state
-        localStorage.removeItem('user');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('user_first_name');
+        localStorage.removeItem('user_email');
         setIsLoggedIn(false);
         setFirstName('');
+        navigate('/login');
     };
 
     const toggleDropdown = () => {
@@ -66,11 +108,8 @@ const LoginIndicator = () => {
                         />
                     </span>
                     <span>
-                        Hello, {firstName}
+                        Hello, {firstName ? firstName : "Loading..."}
                     </span>
-                    <button onClick={handleLogout}>
-                        Logout
-                    </button>
                 </div>
             ) : (
                 <div className="guest">
@@ -90,10 +129,12 @@ const LoginIndicator = () => {
             {dropdownOpen && (
                 <div className="dropdown" ref={userMenuRef}>
                     {isLoggedIn ? (
-                        <>
-                            <div onClick={() => console.log('View Profile')}>View Profile</div>
-                            <div onClick={handleLogout}>Logout</div>
-                        </>
+                        <div onClick={() => console.log('View Profile')}>
+                            <ul>
+                                <li><Link to="/settings">Settings</Link></li>
+                                <li onClick={handleLogout}><Link to="/login">Logout</Link></li>
+                            </ul>
+                        </div>
                     ) : (
                         <div onClick={() => console.log('Login')}>
                             <ul>
@@ -105,16 +146,16 @@ const LoginIndicator = () => {
                 </div>
             )}
 
-                <div
-                    className={`user-icon ${dropdownOpen ? 'open' : ''}`}
-                    onClick={toggleDropdown}
-                    ref={photoRef}
-                >
+            <div
+                className={`user-icon ${dropdownOpen ? 'open' : ''}`}
+                onClick={toggleDropdown}
+                ref={photoRef}
+            >
 
-                <div
-                    className={`user-icon-menu ${dropdownOpen ? 'open' : ''}`}
-                    ref={userMenuRef}
-                >
+            <div
+                className={`user-icon-menu ${dropdownOpen ? 'open' : ''}`}
+                ref={userMenuRef}
+            >
 
                 </div>
             </div>
