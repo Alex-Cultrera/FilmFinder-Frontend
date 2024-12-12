@@ -6,7 +6,7 @@ import axios from 'axios';
 import {SearchBox} from "./SearchBox";
 import Movies from "./Movies";
 import NavBar from "./NavBar";
-import LoginIndicator from "./LoginIndicator";
+import SessionStatus from "./SessionStatus";
 
 const API_URL = 'http://www.omdbapi.com/?apikey=872871fc'
 
@@ -46,7 +46,7 @@ const Home = () => {
             <div className="nav-container">
                 <span className="nav">
                     <NavBar/>
-                    <LoginIndicator/>
+                    <SessionStatus/>
                 </span>
             </div>
 

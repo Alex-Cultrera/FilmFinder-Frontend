@@ -1,75 +1,34 @@
 import React, {useState, useEffect, useRef} from 'react';
-import '../styles/LoginIndicator.css';
+import '../styles/SessionStatus.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate} from "react-router-dom";
-import axios from "axios";
 
-const LoginIndicator = () => {
+const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [firstName, setFirstName] = useState('');
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const photoRef = useRef(null);
     const userMenuRef = useRef(null);
     const navigate = useNavigate();
 
     const userId = localStorage.getItem('user_id');
-    const email = localStorage.getItem('user_email');
     const token = localStorage.getItem('access_token');
-    const getNameApiUrl = 'http://localhost:8080/api/auth/name';
-
-    const getName = async () => {
-        try {
-            console.log('Fetching name for:', email);
-            if (!token) {
-                console.error('No token found');
-                return;
-            }
-            const response = await axios.post(getNameApiUrl,
-            {
-                    email
-                },
-            {
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-            if (response.data) {
-                const {first_name} = response.data;
-                localStorage.setItem('user_first_name', first_name);
-                setFirstName(first_name);
-            } else {
-                console.error('First name not found in response:');
-            }
-        } catch (error) {
-            console.error('Error fetching name:', error);
-        }
-    };
+    const firstName = localStorage.getItem('first_name');
 
     useEffect(() => {
-        const fetchUserName = async () => {
-            if (userId && email && token) {
+            if (userId && token) {
             setIsLoggedIn(true);
-                try {
-                    await getName();
-                } catch (error) {
-                    console.error("Error fetching user name:", error);
-                }
             } else {
                 setIsLoggedIn(false);
             }
-        };
-        fetchUserName();
-    });
+    }, [userId, token]);
 
     const handleLogout = () => {
         localStorage.removeItem('access_token');
         localStorage.removeItem('user_id');
-        localStorage.removeItem('user_first_name');
+        localStorage.removeItem('first_name');
         localStorage.removeItem('user_email');
         setIsLoggedIn(false);
-        setFirstName('');
         navigate('/login');
     };
 
@@ -97,7 +56,7 @@ const LoginIndicator = () => {
     }, []);
 
     return (
-        <div className="loginIndicator">
+        <div className="SessionStatus">
             {isLoggedIn ? (
                 <div className="hello">
                     <span className="profile-icon">
@@ -163,6 +122,6 @@ const LoginIndicator = () => {
     );
 };
 
-export default LoginIndicator;
+export default SessionStatus;
 
 

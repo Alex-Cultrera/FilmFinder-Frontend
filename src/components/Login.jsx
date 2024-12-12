@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import '../styles/Login.css';
 import GoogleIcon from '../images/googleIcon.svg';
 import FacebookIcon from '../images/facebookIcon.svg';
+import {GoogleLogin} from "@react-oauth/google";
 
 
 function Login() {
@@ -23,9 +24,11 @@ function Login() {
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
+        setError(null);
     };
     const handlePasswordChange = (e) => {
         setPassword(e.target.value);
+        setError(null);
     };
 
     const handleSubmit = async (e) => {
@@ -40,11 +43,12 @@ function Login() {
                 email,
                 password
             });
-            const { access_jwt, user_id } = response.data;
+            const { access_jwt, user_id, first_name } = response.data;
             if (response.data) {
                 localStorage.setItem('access_token', access_jwt);
                 localStorage.setItem('user_id', user_id);
                 localStorage.setItem('user_email', email);
+                localStorage.setItem('first_name', first_name);
                 navigate('/dashboard');
             }
         } catch (error) {
@@ -58,9 +62,13 @@ function Login() {
         }
     };
 
-    const handleGoogleLogin = () => {
-        // alert('Continue with Google');
-        // Add actual Google login logic here
+    const handleGoogleLogin = (credentialResponse) => {
+        console.log(credentialResponse);
+        // Process the credential response (e.g., send to backend)
+    }
+
+    const handleGoogleLoginError = () => {
+        console.log("Login failed");
     };
 
     const handleFacebookLogin = () => {
@@ -121,7 +129,11 @@ function Login() {
                 </div>
 
                 <div className="social-login">
-                    <button onClick={handleGoogleLogin} className="btn google-btn">
+                    <button className="btn google-btn">
+                        <GoogleLogin
+                            onSuccess={handleGoogleLogin}
+                            onError={handleGoogleLoginError}
+                        />
                         <img
                             src={GoogleIcon}
                             alt="Google"
