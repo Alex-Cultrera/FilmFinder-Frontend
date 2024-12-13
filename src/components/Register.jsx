@@ -5,7 +5,7 @@ import NavBar from "./NavBar";
 import '../styles/Register.css';
 import GoogleIcon from "../images/googleIcon.svg";
 import FacebookIcon from "../images/facebookIcon.svg";
-
+import ContinueWithGoogle from "./ContinueWithGoogle";
 
 
 function Register() {
@@ -41,10 +41,6 @@ function Register() {
         }
     };
 
-    const handleGoogleLogin = () => {
-        // alert('Continue with Google');
-        // Add actual Google login logic here
-    };
 
     const handleFacebookLogin = () => {
         // alert('Continue with Facebook');
@@ -88,15 +84,7 @@ function Register() {
                 </div>
 
                 <div className="social-login">
-                    <button onClick={handleGoogleLogin} className="btn google-btn">
-                        <img
-                            src={GoogleIcon}
-                            alt="Google"
-                        />
-                    <span>
-                        Continue with Google
-                    </span>
-                    </button>
+                    <ContinueWithGoogle/>
                     <button onClick={handleFacebookLogin} className="btn facebook-btn">
                         <img
                             src={FacebookIcon}

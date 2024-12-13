@@ -3,6 +3,7 @@ import '../styles/SessionStatus.css';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate} from "react-router-dom";
+import {googleLogout} from "@react-oauth/google";
 
 const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -24,6 +25,7 @@ const SessionStatus = () => {
     }, [userId, token]);
 
     const handleLogout = () => {
+        googleLogout()
         localStorage.removeItem('access_token');
         localStorage.removeItem('user_id');
         localStorage.removeItem('first_name');

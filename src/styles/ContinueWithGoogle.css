@@ -1,0 +1,32 @@
+.google-btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+    background-color: #2C3531;
+    color: white;
+}
+
+.google-btn-img {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    margin-right: 10px;
+
+}
+
+.google-btn:hover {
+    background-color: #D9B08C;
+}
+
+.google-btn:disabled {
+    background-color: #dfe1e5;
+    cursor: not-allowed;
+}

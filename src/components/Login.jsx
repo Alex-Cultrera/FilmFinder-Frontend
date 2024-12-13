@@ -6,7 +6,8 @@ import '../styles/Login.css';
 import GoogleIcon from '../images/googleIcon.svg';
 import FacebookIcon from '../images/facebookIcon.svg';
 import {GoogleLogin} from "@react-oauth/google";
-
+import {jwtDecode} from "jwt-decode"
+import ContinueWithGoogle from "./ContinueWithGoogle";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -62,14 +63,16 @@ function Login() {
         }
     };
 
-    const handleGoogleLogin = (credentialResponse) => {
-        console.log(credentialResponse);
-        // Process the credential response (e.g., send to backend)
-    }
-
-    const handleGoogleLoginError = () => {
-        console.log("Login failed");
-    };
+    // const handleGoogleLogin = (credentialResponse) => {
+    //     console.log(credentialResponse);
+    //     console.log(jwtDecode(credentialResponse.credential))
+    //     navigate('/dashboard');
+    //     // Process the credential response (e.g., send to backend)
+    // }
+    //
+    // const handleGoogleLoginError = () => {
+    //     console.log("Login failed");
+    // };
 
     const handleFacebookLogin = () => {
         // alert('Continue with Facebook');
@@ -129,19 +132,29 @@ function Login() {
                 </div>
 
                 <div className="social-login">
-                    <button className="btn google-btn">
-                        <GoogleLogin
-                            onSuccess={handleGoogleLogin}
-                            onError={handleGoogleLoginError}
-                        />
-                        <img
-                            src={GoogleIcon}
-                            alt="Google"
-                        />
-                        <span>
-                            Continue with Google
-                        </span>
-                    </button>
+                    {/*<button className="btn google-btn">*/}
+                    {/*    <GoogleLogin*/}
+                    {/*        onSuccess={handleGoogleLogin}*/}
+                    {/*        onError={handleGoogleLoginError}*/}
+                    {/*    />*/}
+                    {/*    <img*/}
+                    {/*        src={GoogleIcon}*/}
+                    {/*        alt="Google"*/}
+                    {/*    />*/}
+                    {/*    <span>*/}
+                    {/*        Continue with Google*/}
+                    {/*    </span>*/}
+                    {/*</button>*/}
+
+                    {/*<GoogleLogin*/}
+                    {/*    className="btn google-btn"*/}
+                    {/*    onSuccess={handleGoogleLogin}*/}
+                    {/*    onError={handleGoogleLoginError}*/}
+                    {/*    auto_select={true}*/}
+                    {/*/>*/}
+
+                    <ContinueWithGoogle/>
+
                     <button onClick={handleFacebookLogin} className="btn facebook-btn">
                         <img
                             src={FacebookIcon}
