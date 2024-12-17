@@ -3,7 +3,6 @@ import axios from 'axios';
 import {Link, useNavigate} from "react-router-dom";
 import NavBar from "./NavBar";
 import '../styles/Register.css';
-import GoogleIcon from "../images/googleIcon.svg";
 import FacebookIcon from "../images/facebookIcon.svg";
 import ContinueWithGoogle from "./ContinueWithGoogle";
 
@@ -13,7 +12,6 @@ function Register() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const navigate = useNavigate();
-
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);

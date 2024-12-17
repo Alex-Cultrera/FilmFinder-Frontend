@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {useGoogleLogin} from "@react-oauth/google";
-import {jwtDecode} from "jwt-decode";
 import {useNavigate} from "react-router-dom";
 import axios from "axios";
 import '../styles/ContinueWithGoogle.css';
@@ -22,48 +21,31 @@ const ContinueWithGoogle = () => {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
                 });
 
-                console.log('User Info:', userInfo.data);
-
                 const userEmail = userInfo.data.email;
-                localStorage.setItem('user_email', userEmail);
                 const firstName = userInfo.data.given_name;
-                localStorage.setItem('first_name', firstName);
                 const lastName = userInfo.data.family_name;
                 const userPhoto = userInfo.data.picture;
 
                 try {
-                    const response = await axios.post('http://localhost:8080/api/auth/check-email', {
+                    const response = await axios.post('http://localhost:8080/api/auth/google', {
+                        firstName,
+                        lastName,
                         userEmail,
+                        userPhoto,
                     });
-                    if (response.data.message === "Email is available") {
-                        try {
-                            const response = await axios.post('http://localhost:8080/api/auth/register', {
-                                firstName,
-                                lastName,
-                                userEmail,
-                                password,
-                            });
-
-                            if (response.data.message === "Thank you for registering") {
-                                alert('Registration successful! You can now log in.');
-                                navigate('/login');
-                            }
-                        } catch (error) {
-                            setError(error.response?.data?.message || 'An error occurred while registering.');
-                        } finally {
-                            setLoading(false);
-                        }
-
-                        //Register & Login
-                        setLoading(false);
-                        navigate('/dashboard');
-                    } else {
-                        //Login
+                    const { access_jwt, user_id, first_name } = response.data
+                    if (response.data) {
+                        localStorage.setItem('access_token', access_jwt);
+                        localStorage.setItem('user_id', user_id);
+                        localStorage.setItem('user_email', userEmail);
+                        localStorage.setItem('first_name', first_name);
                         setLoading(false);
                         navigate('/dashboard');
                     }
                 } catch (error) {
-                    setError(error.response?.data?.message || 'An error occurred while checking the email.');
+                    setError(error.response?.data?.message || 'An error occurred while registering.');
+                } finally {
+                    setLoading(false);
                 }
             } catch (error) {
                 console.error('Google login error:', error);
