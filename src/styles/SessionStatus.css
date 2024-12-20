@@ -21,6 +21,14 @@
     cursor: pointer;
 }
 
+.profile-photo {
+    border-radius: 50px;
+    width: 35px;
+    display: flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
 .dropdown {
     /*display: none;*/
     position: absolute;

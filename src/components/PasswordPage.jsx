@@ -3,15 +3,14 @@ import NavBar from "./NavBar";
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Login.css';
 import axios from 'axios';
+import { usePassword } from '../hooks/usePassword';
 
 const PasswordPage = () => {
     const {state} = useLocation();
     const {email} = state || {};
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [error, setError] = useState('');
+    const {password, confirmPassword, error, setError, handlePasswordChange, handleConfirmPasswordChange, validatePasswords} = usePassword();
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
@@ -23,21 +22,11 @@ const PasswordPage = () => {
         setLastName(e.target.value);
     };
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
-    };
-
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError(null);
 
-        if (password !== confirmPassword) {
-            setError('Passwords do not match.');
+        if (!validatePasswords()) {
             setLoading(false);
             return;
         }

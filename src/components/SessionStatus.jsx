@@ -4,10 +4,12 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate} from "react-router-dom";
 import {googleLogout} from "@react-oauth/google";
+import axios from 'axios';
 
 const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
     const photoRef = useRef(null);
     const userMenuRef = useRef(null);
     const navigate = useNavigate();
@@ -19,10 +21,38 @@ const SessionStatus = () => {
     useEffect(() => {
             if (userId && token) {
             setIsLoggedIn(true);
+            fetchProfilePhoto();
             } else {
                 setIsLoggedIn(false);
             }
     }, [userId, token]);
+
+    const fetchProfilePhoto = () => {
+        try {
+            const photoUrl = 'https://lh3.googleusercontent.com/a/ACg8ocJA8alnJkImlJmPmDtDPBd4nhaG7UcrZN-rAlGvoKca_fuKUdLv=s96-c';
+                    setProfilePhotoUrl(photoUrl);
+        } catch (error) {
+                    console.error('Error fetching profile photo:', error);
+                }
+
+    }
+    // const fetchProfilePhoto = async () => {
+    //     try {
+    //         const response = await axios.get(`/api/users/${userId}/profilePhoto`, {
+    //             headers: {
+    //                 Authorization: `Bearer ${token}`,
+    //             },
+    //         });
+    //
+    //         const { photoUrl } = response.data; // Assuming the backend returns { photoUrl: "image-url" }
+    //         setProfilePhotoUrl(photoUrl);
+    //     } catch (error) {
+    //         console.error('Error fetching profile photo:', error);
+    //     }
+    // };
+
+
+
 
     const handleLogout = () => {
         googleLogout()
@@ -30,6 +60,7 @@ const SessionStatus = () => {
         localStorage.removeItem('user_id');
         localStorage.removeItem('first_name');
         localStorage.removeItem('user_email');
+        localStorage.removeItem('profile_photo_url');
         setIsLoggedIn(false);
         navigate('/login');
     };
@@ -62,11 +93,21 @@ const SessionStatus = () => {
             {isLoggedIn ? (
                 <div className="hello">
                     <span className="profile-icon">
-                        <FontAwesomeIcon
-                            icon={faCircleUser}
-                            onClick={toggleDropdown}
-                            ref={photoRef}
-                        />
+                        {profilePhotoUrl ? (
+                            <img
+                                src={profilePhotoUrl}
+                                alt="Profile"
+                                className="profile-photo"
+                                onClick={toggleDropdown}
+                                ref={photoRef}
+                            />
+                        ) : (
+                            <FontAwesomeIcon
+                                icon={faCircleUser}
+                                onClick={toggleDropdown}
+                                ref={photoRef}
+                            />
+                        )}
                     </span>
                     <span>
                         Hello, {firstName ? firstName : "Loading..."}

@@ -17,7 +17,9 @@ const ContinueWithGoogle = () => {
             try {
                 console.log('Token response:', tokenResponse);
 
-                const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+                const googleApiUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
+
+                const userInfo = await axios.get(googleApiUrl, {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
                 });
 
@@ -27,7 +29,8 @@ const ContinueWithGoogle = () => {
                 const userPhoto = userInfo.data.picture;
 
                 try {
-                    const response = await axios.post('http://localhost:8080/api/auth/google', {
+                    const backendAuthEndpoint = 'http://localhost:8080/api/auth/google';
+                    const response = await axios.post(backendAuthEndpoint, {
                         firstName,
                         lastName,
                         userEmail,
