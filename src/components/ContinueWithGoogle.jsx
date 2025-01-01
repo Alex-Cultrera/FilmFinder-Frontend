@@ -64,8 +64,6 @@ const ContinueWithGoogle = () => {
         },
     });
 
-        // flow: 'implicit', // implicit is the default
-
     useEffect (() => {
         setIsSdkLoaded(true);
     }, []);
@@ -75,8 +73,6 @@ const ContinueWithGoogle = () => {
         setError(null);
         loginWithGoogle();
     };
-
-    // console.log();
 
     return (
         <div>
@@ -96,8 +92,6 @@ const ContinueWithGoogle = () => {
                     {loading ? 'Waiting for Google authorization...' : (isSdkLoaded ? 'Continue with Google' : 'Loading...')}
                 </span>
             </button>
-            {/*// flow={'auth-code'}*/}
-            {/*// auto_select={true}*/}
 
         </div>
     );

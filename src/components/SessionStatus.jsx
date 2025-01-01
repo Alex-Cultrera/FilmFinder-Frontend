@@ -30,7 +30,7 @@ const SessionStatus = () => {
     const fetchProfilePhoto = () => {
         try {
             const photoUrl = 'https://lh3.googleusercontent.com/a/ACg8ocJA8alnJkImlJmPmDtDPBd4nhaG7UcrZN-rAlGvoKca_fuKUdLv=s96-c';
-                    setProfilePhotoUrl(photoUrl);
+            setProfilePhotoUrl(photoUrl);
         } catch (error) {
                     console.error('Error fetching profile photo:', error);
                 }
@@ -65,6 +65,7 @@ const SessionStatus = () => {
         navigate('/login');
     };
 
+
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
@@ -96,8 +97,9 @@ const SessionStatus = () => {
                         {profilePhotoUrl ? (
                             <img
                                 src={profilePhotoUrl}
-                                alt="Profile"
                                 className="profile-photo"
+                                referrerPolicy={"no-referrer"}
+                                alt="Profile"
                                 onClick={toggleDropdown}
                                 ref={photoRef}
                             />

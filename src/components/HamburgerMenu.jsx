@@ -63,7 +63,6 @@ const HamburgerMenu = () => {
                     <li><Link to="/favorites" onClick={(e) => handleLinkClick(e, '/favorites')}>Favorites</Link></li>
                     <li><Link to="/watched" onClick={(e) => handleLinkClick(e, '/watched')}>Watched</Link></li>
                     <li><Link to="/reviews" onClick={(e) => handleLinkClick(e, '/reviews')}>Reviews</Link></li>
-                    <li><Link to="/settings" onClick={(e) => handleLinkClick(e, '/settings')}>Settings</Link></li>
                 </ul>
             </div>
         </div>
