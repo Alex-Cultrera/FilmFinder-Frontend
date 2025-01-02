@@ -11,13 +11,19 @@ const Queue = () => {
         e.preventDefault();
         setError(null);
 
+        const email = localStorage.getItem('user_email');
+
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/hello', {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                    withCredentials: true
-                },
-            });
+            const response = await axios.post(
+            'http://localhost:8080/api/auth/hello',
+            {email},
+            {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                    },
+                    withCredentials: true,
+                }
+            );
 
             if (response.data.message === "Hello") {
                 alert('Hello movie lover')
@@ -38,6 +44,9 @@ const Queue = () => {
                     <SessionStatus/>
                 </span>
             <h2>Queue</h2>
+            <button onClick={getHello}>Say Hello</button>
+
+            {error && <div className="error">{error}</div>}
             </div>
         </div>
     );
