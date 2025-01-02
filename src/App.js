@@ -10,6 +10,7 @@ import Queue from "./components/Queue";
 import Favorites from "./components/Favorites";
 import Watched from "./components/Watched";
 import Reviews from "./components/Reviews";
+import MovieDetail from "./components/MovieDetail";
 
 function App () {
 
@@ -27,7 +28,7 @@ function App () {
         <Router>
             <Routes>
                 <Route path="/" element={<Home/>}/>
-                {/*<Route path="/movie" element={<Movie/>}/>*/}
+                <Route path="/movie/:imdbID" element={<MovieDetail/>}/>
                 <Route path="/register" element={<Register/>}/>
                 <Route path="/login" element={<Login/>}/>
                 <Route path="/password" element={<PasswordPage/>} />

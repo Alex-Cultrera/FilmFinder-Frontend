@@ -14,7 +14,8 @@ const Queue = () => {
         try {
             const response = await axios.post('http://localhost:8080/api/auth/hello', {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                    withCredentials: true
                 },
             });
 

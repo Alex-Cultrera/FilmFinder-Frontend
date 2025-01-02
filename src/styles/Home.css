@@ -210,3 +210,28 @@ h1 {
         margin: 1rem;
     }
 }
+
+
+.heart-icon-container {
+    top: 15px;
+    right: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.heart-icon {
+    font-size: 1.5rem;
+    color: white;
+    transition: transform 0.3s ease, color 0.2s ease;
+}
+
+.movie:hover .heart-icon:hover {
+    transform: scale(1.2);
+}
+
+.heart-icon.favorited {
+    color: red;
+}
