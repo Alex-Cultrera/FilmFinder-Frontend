@@ -19,7 +19,6 @@ body {
 }
 
 .home {
-    /*padding: 4rem;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -109,7 +108,7 @@ h1 {
     box-shadow: 0px 13px 10px -7px rgba(0, 0, 0, 0.1);
 }
 
-.movie div:nth-of-type(1) {
+.movie .overlay {
     position: absolute;
     padding: 16px;
     width: 100%;
@@ -123,17 +122,17 @@ h1 {
     transform: scale(1.05, 1.05);
 }
 
-.movie div:nth-of-type(2) {
+.movie .poster {
     width: 100%;
     height: 100%;
 }
 
-.movie div:nth-of-type(2) img {
+.movie .poster img {
     height: 100%;
     width: 100%;
 }
 
-.movie div:nth-of-type(3) {
+.movie .label {
     z-index: 2;
     background-color: #2C3531;
     padding: 16px 24px 24px 24px;
@@ -144,7 +143,7 @@ h1 {
     left: 0;
 }
 
-.movie div:nth-of-type(3) span {
+.movie .label span {
     font-family: "Raleway", sans-serif;
     text-transform: uppercase;
     font-size: 13px;
@@ -153,22 +152,26 @@ h1 {
     color: #f0f0f0;
 }
 
-.movie div:nth-of-type(3) h3 {
+.movie .label h3 {
     margin-top: 5px;
     font-family: "Roboto Slab", serif;
     color: #FFCB9A;
 }
 
-.movie:hover div:nth-of-type(2) {
+.movie:hover .poster img {
     height: 100%;
     opacity: 0.3;
 }
 
-.movie:hover div:nth-of-type(3) {
+/*.movie:hover .icon-container .watch-icon-container .watch-icon {*/
+/*    opacity: 1;*/
+/*}*/
+
+.movie:hover .label {
     background-color: transparent;
 }
 
-.movie:hover div:nth-of-type(1) {
+.movie:hover .overlay {
     opacity: 1;
 }
 
@@ -206,32 +209,54 @@ h1 {
     }
 
     .movie {
-        width: "100%";
+        width: 100%;
         margin: 1rem;
     }
 }
 
 
-.heart-icon-container {
+.icon-container {
+    position: absolute;
     top: 15px;
     right: 15px;
+    z-index: 10;
+    display: flex;
+    justify-content: right;
+    opacity: 1;
+}
+
+.heart-icon-container,
+.watch-icon-container {
     cursor: pointer;
     display: flex;
     justify-content: right;
-    align-items: center;
-    transition: transform 0.3s ease;
+    /*transition: transform 0.3s ease;*/
 }
 
-.heart-icon {
+.watch-icon-container {
+    margin-left: 10px;
+    opacity: 1;
+}
+
+.heart-icon,
+.watch-icon  {
     font-size: 1.5rem;
     color: white;
-    transition: transform 0.3s ease, color 0.2s ease;
+    /*transition: transform 0.3s ease, color 0.2s ease;*/
 }
 
-.movie:hover .heart-icon:hover {
+
+.movie:hover .heart-icon-container:hover .heart-icon,
+.movie:hover .watch-icon-container:hover .watch-icon {
     transform: scale(1.2);
 }
 
-.heart-icon.favorited {
+.heart-icon.favorited,
+.watch-icon.watched {
+    color: red;
+}
+
+.heart-icon-container:active .heart-icon,
+.watch-icon-container:active .watch-icon {
     color: red;
 }

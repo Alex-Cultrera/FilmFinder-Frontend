@@ -35,8 +35,7 @@ function App () {
                 <Route path="/dashboard" element={<Dashboard/>} />
                 <Route path="/settings" element={<ProtectedRoute><Settings/></ProtectedRoute>}/>
                 <Route path="/queue" element={<ProtectedRoute><Queue/></ProtectedRoute>}/>
-                {/*<Route path="/favorites" element={<ProtectedRoute><Favorites/></ProtectedRoute>}/>*/}
-                <Route path="/favorites" element={<Favorites/>}/>
+                <Route path="/favorites" element={<ProtectedRoute><Favorites/></ProtectedRoute>}/>
                 <Route path="/watched" element={<ProtectedRoute><Watched/></ProtectedRoute>}/>
                 <Route path="/reviews" element={<ProtectedRoute><Reviews/></ProtectedRoute>}/>
             </Routes>
