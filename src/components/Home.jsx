@@ -1,5 +1,4 @@
-import React from 'react';
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import '../styles/Home.css';
 import SearchIcon from '../images/search.svg';
 import axios from 'axios';
@@ -7,20 +6,15 @@ import {SearchBox} from "./SearchBox";
 import Movies from "./Movies";
 import NavBar from "./NavBar";
 import SessionStatus from "./SessionStatus";
+import useFavorites from '../hooks/useFavorites';
 
-const API_URL = 'http://www.omdbapi.com/?apikey=872871fc'
-
-// const movie1 = {
-//     "Title": "The Matrix Resurrections",
-//     "Year": "2021",
-//     "imdbID": "tt10838180",
-//     "Type": "movie",
-//     "Poster": "https://m.media-amazon.com/images/M/MV5BMDMyNDIzYzMtZTMyMy00NjUyLWI3Y2MtYzYzOGE1NzQ1MTBiXkEyXkFqcGc@._V1_SX300.jpg"
-// }
+const API_URL = 'http://www.omdbapi.com/?apikey=872871fc';
+// https://www.omdbapi.com/?apikey=[YOUR-KEY]&s=${name}&page=${page}
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const {favorites, addToFavorites, removeFromFavorites, loading, error } = useFavorites();
 
 
     const searchMovies = async (title) => {
@@ -29,16 +23,28 @@ const Home = () => {
         if (data) {
             setMovies(data.Search);
         }
+        console.log(data);
     }
 
     useEffect(() => {
         searchMovies('Spider-man')
-
     }, []);
 
     const handleSearch = async (val) => {
-        console.log(val)
         await searchMovies(val)
+    }
+
+    const handleToggleFavorite = (movie) => {
+            const isFavorite = favorites.some(fav => fav.imdbID === movie.imdbID);
+            if (isFavorite) {
+                removeFromFavorites(movie);
+            } else {
+                addToFavorites(movie);
+            }
+    };
+
+    if (loading) {
+        return <div>Loading...</div>;
     }
 
     return (
@@ -64,12 +70,16 @@ const Home = () => {
                     ? (
                         <Movies
                             movies={movies}
+                            onToggleFavorite={handleToggleFavorite}
+                            favorites={favorites}
                         />
                     ) : (
                         <div className="empty">
                             <h2>No movies found</h2>
                         </div>
                     )}
+
+                    {error && <div className="error">{error}</div>}
             </div>
         </div>
     );

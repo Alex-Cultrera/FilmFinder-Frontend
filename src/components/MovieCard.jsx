@@ -16,20 +16,14 @@ const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatch, isWatch
             onMouseLeave={handleMouseLeave}
         >
             <Link to={`/movie/${movie.imdbID}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-                <div
-                    className='overlay'
-                >
+                <div className='overlay'>
                     <p>{movie.Year}</p>
                 </div>
-                <div
-                    className='poster'
-                >
+                <div className='poster'>
                     <img src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/400'}
                          alt={movie.Title}/>
                 </div>
-                <div
-                    className='label'
-                >
+                <div className='label'>
                     <span>{movie.Type}</span>
                     <h3>{movie.Title}</h3>
                 </div>
