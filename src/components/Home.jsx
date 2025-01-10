@@ -43,10 +43,6 @@ const Home = () => {
             }
     };
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-
     return (
         <div>
             <div className="nav-container">
@@ -65,7 +61,6 @@ const Home = () => {
                     handleSearch={handleSearch}
                 />
 
-
                 {movies?.length > 0
                     ? (
                         <Movies
@@ -79,7 +74,7 @@ const Home = () => {
                         </div>
                     )}
 
-                    {error && <div className="error">{error}</div>}
+                    {/*{error && <div className="error">{error}</div>}*/}
             </div>
         </div>
     );

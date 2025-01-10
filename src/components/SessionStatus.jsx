@@ -5,6 +5,7 @@ import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate} from "react-router-dom";
 import {googleLogout} from "@react-oauth/google";
 import axios from 'axios';
+import {getCookieValue} from "../App";
 
 const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -13,29 +14,44 @@ const SessionStatus = () => {
     const photoRef = useRef(null);
     const userMenuRef = useRef(null);
     const navigate = useNavigate();
+    const accessToken = getCookieValue('accessToken')
+    const [accessTokenValue, setAccessTokenValue] = useState(accessToken || '')
 
     const userId = localStorage.getItem('user_id');
-    const token = localStorage.getItem('access_token');
     const firstName = localStorage.getItem('first_name');
 
+
     useEffect(() => {
-            if (userId && token) {
-            setIsLoggedIn(true);
-            fetchProfilePhoto();
+        setAccessTokenValue(accessToken);
+        const savedPhotoUrl = localStorage.getItem('profile_photo_url');
+        if (savedPhotoUrl) {
+            setProfilePhotoUrl(savedPhotoUrl);
+        } else {
+            if (userId && accessToken) {
+                setIsLoggedIn(true);
+                fetchProfilePhoto();
             } else {
                 setIsLoggedIn(false);
             }
-    }, [userId, token]);
+        }
+    }, [userId, accessToken]);
 
     const fetchProfilePhoto = () => {
         try {
             const photoUrl = 'https://lh3.googleusercontent.com/a/ACg8ocJA8alnJkImlJmPmDtDPBd4nhaG7UcrZN-rAlGvoKca_fuKUdLv=s96-c';
             setProfilePhotoUrl(photoUrl);
+            localStorage.setItem('profile_photo_url', photoUrl);
         } catch (error) {
                     console.error('Error fetching profile photo:', error);
                 }
 
     }
+
+    const handleImageError = () => {
+        setProfilePhotoUrl('path-to-default-image.jpg'); // Fallback image
+    };
+
+
     // const fetchProfilePhoto = async () => {
     //     try {
     //         const response = await axios.get(`/api/users/${userId}/profilePhoto`, {
@@ -56,11 +72,11 @@ const SessionStatus = () => {
 
     const handleLogout = () => {
         googleLogout()
-        localStorage.removeItem('access_token');
         localStorage.removeItem('user_id');
         localStorage.removeItem('first_name');
         localStorage.removeItem('user_email');
         localStorage.removeItem('profile_photo_url');
+        document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         setIsLoggedIn(false);
         navigate('/login');
     };
@@ -102,6 +118,7 @@ const SessionStatus = () => {
                                 alt="Profile"
                                 onClick={toggleDropdown}
                                 ref={photoRef}
+                                onError={handleImageError}
                             />
                         ) : (
                             <FontAwesomeIcon

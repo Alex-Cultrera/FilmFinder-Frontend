@@ -5,6 +5,7 @@ import NavBar from "./NavBar";
 import '../styles/Login.css';
 import FacebookIcon from '../images/facebookIcon.svg';
 import ContinueWithGoogle from "./ContinueWithGoogle";
+import {getCookieValue} from "../App";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -14,7 +15,7 @@ function Login() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('access_token');
+        const token = getCookieValue('accessToken');
         if (token) {
             navigate('/dashboard');
         }
@@ -40,21 +41,20 @@ function Login() {
             const response = await axios.post(loginApiUrl, {
                 email,
                 password
-            });
-            const { access_jwt, user_id, first_name } = response.data;
+            }, { withCredentials: true });
+
+            console.log(response);
             if (response.data) {
-                localStorage.setItem('access_token', access_jwt);
-                localStorage.setItem('user_id', user_id);
+                const { userId, firstName } = response.data;
+                // document.cookie = `accessToken=${accessToken}; Secure; HttpOnly; SameSite=Strict`;
+                localStorage.setItem('user_id', userId);
+                localStorage.setItem('first_name', firstName);
                 localStorage.setItem('user_email', email);
-                localStorage.setItem('first_name', first_name);
                 navigate('/dashboard');
             }
         } catch (error) {
-            if (error.response) {
-                setError(error.response.data.message || 'Invalid credentials');
-            } else {
-                setError('Something went wrong. Please try again.');
-            }
+            const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
+            setError(errorMessage);
         } finally {
             setLoading(false);
         }

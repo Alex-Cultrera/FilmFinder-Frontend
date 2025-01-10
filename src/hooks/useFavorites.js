@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import {getCookieValue} from "../App";
 
 const useFavorites = () => {
     const [favorites, setFavorites] = useState([]);
@@ -10,12 +11,13 @@ const useFavorites = () => {
         const fetchFavorites = async () => {
             setLoading(true);
             setError(null);
+            const token = getCookieValue('accessToken');
             try {
                 const response = await axios.get(
                     'http://localhost:8080/api/auth/favorites',
                     {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem('access_token')}`
+                            Authorization: `Bearer ${token}`
                         },
                         withCredentials: true,
                         }
@@ -39,6 +41,7 @@ const useFavorites = () => {
     const addToFavorites = async (movie) => {
         setLoading(true);
         setError(null);
+        const token = getCookieValue('accessToken');
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/auth/addFavorite',
@@ -52,7 +55,7 @@ const useFavorites = () => {
         {
                 headers:
                     {
-                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 withCredentials: true,
                 }
@@ -73,6 +76,7 @@ const useFavorites = () => {
     const removeFromFavorites = async (movie) => {
         setLoading(true);
         setError(null);
+        const token = getCookieValue('accessToken');
         try {
             const response = await axios.post(
                 'http://localhost:8080/api/auth/removeFavorite',
@@ -82,7 +86,7 @@ const useFavorites = () => {
         {
                 headers:
                     {
-                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 withCredentials: true,
                 }
