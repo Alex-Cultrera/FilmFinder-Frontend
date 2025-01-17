@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-import {getCookieValue} from "../App";
+import axios from "../api/axiosInstance";
 
 const useFavorites = () => {
     const [favorites, setFavorites] = useState([]);
@@ -11,19 +10,13 @@ const useFavorites = () => {
         const fetchFavorites = async () => {
             setLoading(true);
             setError(null);
-            const token = getCookieValue('accessToken');
             try {
                 const response = await axios.get(
-                    'http://localhost:8080/api/auth/favorites',
-                    {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        },
-                        withCredentials: true,
-                        }
+                    '/api/auth/favorites',
                 );
+                    console.log("response from /api/auth/favorites: ", response);
                 if (response.status === 200) {
-                    setFavorites(response.data);
+                    setFavorites(response.data ? response.data : []);
                 } else {
                     setError('Error fetching favorites');
                 }
@@ -41,10 +34,10 @@ const useFavorites = () => {
     const addToFavorites = async (movie) => {
         setLoading(true);
         setError(null);
-        const token = getCookieValue('accessToken');
+
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/auth/addFavorite',
+                '/api/auth/addFavorite',
             {
                 imdbId: movie.imdbID,
                 title: movie.Title,
@@ -52,13 +45,6 @@ const useFavorites = () => {
                 year: movie.Year,
                 type: movie.Type,
                 },
-        {
-                headers:
-                    {
-                        Authorization: `Bearer ${token}`,
-                    },
-                withCredentials: true,
-                }
                 );
             if (response.status === 200) {
                 setFavorites((prevFavorites) => [...prevFavorites, movie]);
@@ -76,20 +62,12 @@ const useFavorites = () => {
     const removeFromFavorites = async (movie) => {
         setLoading(true);
         setError(null);
-        const token = getCookieValue('accessToken');
         try {
             const response = await axios.post(
-                'http://localhost:8080/api/auth/removeFavorite',
+                '/api/auth/removeFavorite',
                 {
                 imdbId: movie.imdbID
                 },
-        {
-                headers:
-                    {
-                        Authorization: `Bearer ${token}`,
-                    },
-                withCredentials: true,
-                }
                 );
             if (response.status === 200) {
                 setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav.imdbID !== movie.imdbID));

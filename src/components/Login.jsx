@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import axios from 'axios';
+// import axios from "/src/api/axiosInstance";
 import NavBar from "./NavBar";
 import '../styles/Login.css';
 import FacebookIcon from '../images/facebookIcon.svg';
 import ContinueWithGoogle from "./ContinueWithGoogle";
-import {getCookieValue} from "../App";
+import axios from "../api/axiosInstance";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -14,12 +14,12 @@ function Login() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const token = getCookieValue('accessToken');
-        if (token) {
-            navigate('/dashboard');
-        }
-    }, [navigate]);
+    // useEffect(() => {
+    //     const token = getCookieValue('accessToken');
+    //     if (token) {
+    //         navigate('/dashboard');
+    //     }
+    // }, [navigate]);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -35,13 +35,13 @@ function Login() {
         setLoading(true);
         setError(null);
 
-        const loginApiUrl = 'http://localhost:8080/api/auth/login';
+        const loginApiUrl = '/api/auth/login';
 
         try {
             const response = await axios.post(loginApiUrl, {
                 email,
                 password
-            }, { withCredentials: true });
+            });
 
             console.log(response);
             if (response.data) {

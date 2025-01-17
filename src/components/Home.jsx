@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
 import '../styles/Home.css';
 import SearchIcon from '../images/search.svg';
-import axios from 'axios';
+import axios from "../api/axiosInstance";
+import a from "axios";
 import {SearchBox} from "./SearchBox";
 import Movies from "./Movies";
 import NavBar from "./NavBar";
@@ -18,7 +19,7 @@ const Home = () => {
 
 
     const searchMovies = async (title) => {
-        const response = await axios.get(`${API_URL}&s=${title}`);
+        const response = await a.get(`${API_URL}&s=${title}`);
         const data = await response.data;
         if (data) {
             setMovies(data.Search);

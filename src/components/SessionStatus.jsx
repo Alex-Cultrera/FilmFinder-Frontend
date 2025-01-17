@@ -5,7 +5,6 @@ import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate} from "react-router-dom";
 import {googleLogout} from "@react-oauth/google";
 import axios from 'axios';
-import {getCookieValue} from "../App";
 
 const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,27 +13,25 @@ const SessionStatus = () => {
     const photoRef = useRef(null);
     const userMenuRef = useRef(null);
     const navigate = useNavigate();
-    const accessToken = getCookieValue('accessToken')
-    const [accessTokenValue, setAccessTokenValue] = useState(accessToken || '')
 
     const userId = localStorage.getItem('user_id');
     const firstName = localStorage.getItem('first_name');
 
-
     useEffect(() => {
-        setAccessTokenValue(accessToken);
         const savedPhotoUrl = localStorage.getItem('profile_photo_url');
         if (savedPhotoUrl) {
             setProfilePhotoUrl(savedPhotoUrl);
+            setIsLoggedIn(true);
         } else {
-            if (userId && accessToken) {
+            if (userId) {
+                console.log("settingIsLoggedIn")
                 setIsLoggedIn(true);
                 fetchProfilePhoto();
             } else {
                 setIsLoggedIn(false);
             }
         }
-    }, [userId, accessToken]);
+    }, [userId]);
 
     const fetchProfilePhoto = () => {
         try {
@@ -77,6 +74,7 @@ const SessionStatus = () => {
         localStorage.removeItem('user_email');
         localStorage.removeItem('profile_photo_url');
         document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         setIsLoggedIn(false);
         navigate('/login');
     };
