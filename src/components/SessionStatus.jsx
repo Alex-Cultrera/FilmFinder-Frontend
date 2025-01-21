@@ -4,7 +4,6 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
 import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate} from "react-router-dom";
 import {googleLogout} from "@react-oauth/google";
-import axios from 'axios';
 
 const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);

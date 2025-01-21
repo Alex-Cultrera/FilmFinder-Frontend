@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import NavBar from "./NavBar";
 import SessionStatus from "./SessionStatus";
-import axios from "axios";
+import axios from "../api/axiosInstance";
 
 const Queue = () => {
 
@@ -15,12 +15,9 @@ const Queue = () => {
 
         try {
             const response = await axios.post(
-            'http://localhost:8080/api/auth/hello',
+            '/api/auth/hello',
             {email},
-            {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                    },
+                {
                     withCredentials: true,
                 }
             );

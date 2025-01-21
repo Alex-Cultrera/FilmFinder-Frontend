@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from "../api/axiosInstance";
 import {Link, useNavigate} from "react-router-dom";
 import NavBar from "./NavBar";
 import '../styles/Register.css';
@@ -23,7 +23,7 @@ function Register() {
         setError(null);
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/check-email', {
+            const response = await axios.post('/api/auth/check-email', {
                 email,
             });
 

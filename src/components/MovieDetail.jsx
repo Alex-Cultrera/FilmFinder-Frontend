@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import a from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
 import '../styles/MovieDetail.css';
 
@@ -11,7 +11,7 @@ const MovieDetail = () => {
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
-            const response = await axios.get(`${API_URL}&i=${imdbID}`);
+            const response = await a.get(`${API_URL}&i=${imdbID}`);
             setMovieDetails(response.data);
         };
 

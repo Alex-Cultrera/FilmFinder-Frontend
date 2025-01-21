@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { usePassword } from '../hooks/usePassword';
 import NavBar from "./NavBar";
-import axios from "axios";
+import axios from "../api/axiosInstance";
 import SessionStatus from "./SessionStatus";
 
 const Settings = () => {
@@ -49,7 +49,7 @@ const Settings = () => {
 
         try {
             await axios.post(
-                'http://localhost:8080/api/auth/uploadProfilePhoto',
+                '/api/auth/uploadProfilePhoto',
                 formData,
                 {
                     withCredentials: true,

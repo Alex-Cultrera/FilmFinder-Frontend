@@ -5,7 +5,7 @@ import MovieCard from './MovieCard';
 import useFavorites from '../hooks/useFavorites';
 
 const Favorites = () => {
-    const {favorites, addToFavorites, removeFromFavorites, loading, error } = useFavorites();
+    const {favorites, removeFromFavorites, loading } = useFavorites();
 
     const handleToggleFavorite = (movie) => {
         removeFromFavorites(movie); // If already a favorite, just remove

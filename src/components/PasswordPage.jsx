@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import NavBar from "./NavBar";
 import { useNavigate, useLocation } from 'react-router-dom';
 import '../styles/Login.css';
-import axios from 'axios';
+import axios from "../api/axiosInstance";
 import { usePassword } from '../hooks/usePassword';
 
 const PasswordPage = () => {
@@ -32,7 +32,7 @@ const PasswordPage = () => {
         }
 
         try {
-            const response = await axios.post('http://localhost:8080/api/auth/register', {
+            const response = await axios.post('/api/auth/register', {
                 firstName,
                 lastName,
                 email,

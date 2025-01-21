@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useGoogleLogin} from "@react-oauth/google";
 import {useNavigate} from "react-router-dom";
-import axios from "axios";
+import axios from "../api/axiosInstance";
+import a from "axios";
 import '../styles/ContinueWithGoogle.css';
 import GoogleIcon from "../images/googleIcon.svg";
 
@@ -19,7 +20,7 @@ const ContinueWithGoogle = () => {
 
                 const googleApiUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
 
-                const userInfo = await axios.get(googleApiUrl, {
+                const userInfo = await a.get(googleApiUrl, {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
                 });
 
@@ -29,8 +30,7 @@ const ContinueWithGoogle = () => {
                 const userPhoto = userInfo.data.picture;
 
                 try {
-                    const backendAuthEndpoint = 'http://localhost:8080/api/auth/google';
-                    const response = await axios.post(backendAuthEndpoint, {
+                    const response = await axios.post('/api/auth/google', {
                         firstName,
                         lastName,
                         userEmail,
