@@ -14,12 +14,14 @@ const useFavorites = () => {
                 const response = await axios.get(
                     '/api/auth/favorites',
                 );
-                    console.log("response from /api/auth/favorites: ", response);
-                if (response.status === 200) {
-                    setFavorites(response.data ? response.data : []);
-                } else {
-                    setError('Error fetching favorites');
-                }
+                console.log("Raw response data:", response.data);
+                console.log("response from /api/auth/favorites: ", response);
+                setFavorites(Array.isArray(response.data) ? response.data : []);
+                // if (response.status === 200) {
+                //     setFavorites(response.data ? response.data : []);
+                // } else {
+                //     setError('Error fetching favorites');
+                // }
             } catch (error) {
                 setError('Error fetching favorites');
                 console.error('Error fetching favorites:', error);
@@ -36,6 +38,8 @@ const useFavorites = () => {
         setError(null);
 
         try {
+            console.log("Movie being sent:", movie);
+
             const response = await axios.post(
                 '/api/auth/addFavorite',
             {
@@ -44,8 +48,10 @@ const useFavorites = () => {
                 poster: movie.Poster,
                 year: movie.Year,
                 type: movie.Type,
-                },
-                );
+            },
+            );
+            console.log("response from /api/auth/addFavorite: ", response);
+            
             if (response.status === 200) {
                 setFavorites((prevFavorites) => [...prevFavorites, movie]);
             } else {
@@ -69,6 +75,7 @@ const useFavorites = () => {
                 imdbId: movie.imdbID
                 },
                 );
+                console.log("response from /api/auth/removeFavorite: ", response);
             if (response.status === 200) {
                 setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav.imdbID !== movie.imdbID));
             } else {

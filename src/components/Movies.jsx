@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import MovieCard from "./MovieCard";
+import useFavorites from '../hooks/useFavorites';
 
-const Movies = ({movies, onToggleFavorite, favorites}) => {
+const Movies = ({movies, onToggleFavorite}) => {
     const [watchedMovies, setWatchedMovies] = useState([]);
+    const { favorites } = useFavorites();
 
     const toggleWatch = (movie) => {
         setWatchedMovies((prevWatched) => {
