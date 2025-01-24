@@ -6,30 +6,39 @@ const useFavorites = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const response = await axios.get(
-                    '/api/auth/favorites',
-                );
-                console.log("Raw response data:", response.data);
-                console.log("response from /api/auth/favorites: ", response);
-                setFavorites(Array.isArray(response.data) ? response.data : []);
-                // if (response.status === 200) {
-                //     setFavorites(response.data ? response.data : []);
-                // } else {
-                //     setError('Error fetching favorites');
-                // }
-            } catch (error) {
-                setError('Error fetching favorites');
-                console.error('Error fetching favorites:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    
+    const fetchFavorites = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const response = await axios.get('/favorites');
+            
+            // const dataString = response.data;
+            // const firstArrayEnd = dataString.indexOf(']') + 1;
+            // const firstArrayString = dataString.substring(0, firstArrayEnd);
 
+            // const favoritesData = JSON.parse(firstArrayString);
+
+            const favoritesData = Array.isArray(response.data) ? response.data : response.data[0];
+
+            const normalizedFavorites = favoritesData.map(fav => ({
+                imdbID: fav.imdbId,
+                Title: fav.title,
+                Poster: fav.posterUrl,
+                Year: fav.year
+            }));
+
+            setFavorites(normalizedFavorites);
+        } catch (error) {
+            console.error('Error in fetchFavorites:', error);
+            setError('Error fetching favorites');
+            setFavorites([]);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchFavorites();
     }, []);
 
@@ -38,28 +47,38 @@ const useFavorites = () => {
         setError(null);
 
         try {
-            console.log("Movie being sent:", movie);
+            setFavorites(prev => [...prev, {
+                imdbID: movie.imdbID,
+                Title: movie.Title,
+                Poster: movie.Poster,
+                Year: movie.Year
+            }]);
 
-            const response = await axios.post(
-                '/api/auth/addFavorite',
+            const response = await axios.post('/addFavorite', 
             {
                 imdbId: movie.imdbID,
                 title: movie.Title,
-                poster: movie.Poster,
+                posterUrl: movie.Poster,
                 year: movie.Year,
                 type: movie.Type,
             },
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
             );
-            console.log("response from /api/auth/addFavorite: ", response);
-            
+            // if (response.status !== 200) {
+            //     setFavorites(prev => prev.filter(f => f.imdbID !== movie.imdbID));
+            //     setError('Error adding to favorites');
+            // } 
             if (response.status === 200) {
-                setFavorites((prevFavorites) => [...prevFavorites, movie]);
-            } else {
-                setError('Error adding to favorites');
+                await fetchFavorites();
             }
         } catch (error) {
-            setError(error?.response?.data?.message || 'Error adding to favorites');
+            // setError(error?.response?.data?.message || 'Error adding to favorites');
             console.error('Error adding movie to favorites:', error);
+            setFavorites(prev => prev.filter(f => f.imdbID !== movie.imdbID));
         } finally {
             setLoading(false);
         }
@@ -68,22 +87,34 @@ const useFavorites = () => {
     const removeFromFavorites = async (movie) => {
         setLoading(true);
         setError(null);
+        // const previousFavorites = favorites;
+
         try {
-            const response = await axios.post(
-                '/api/auth/removeFavorite',
+            setFavorites(prev => prev.filter(f => f.imdbID !== movie.imdbID));
+
+            const response = await axios.post('/removeFavorite',
                 {
                 imdbId: movie.imdbID
                 },
-                );
-                console.log("response from /api/auth/removeFavorite: ", response);
+                {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+            // if (response.status !== 200) {
+            //     // setFavorites(previousFavorites);
+            //     setFavorites(prev => [...prev, movie]);
+            //     setError('Error removing from favorites');
+            // } 
             if (response.status === 200) {
-                setFavorites((prevFavorites) => prevFavorites.filter((fav) => fav.imdbID !== movie.imdbID));
-            } else {
-                setError('Error removing from favorites');
+                await fetchFavorites();
             }
         } catch (error) {
-            setError(error?.response?.data?.message || 'Error removing from favorites');
+            // setFavorites(previousFavorites);
             console.error('Error removing movie from favorites:', error);
+            setFavorites(prev => [...prev, movie]);
+            // setError(error?.response?.data?.message || 'Error removing from favorites');
         } finally {
             setLoading(false);
         }

@@ -1,20 +1,30 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import MovieCard from "./MovieCard";
 import useFavorites from '../hooks/useFavorites';
 
-const Movies = ({movies, onToggleFavorite}) => {
+const Movies = ({movies, onToggleFavorite, localFavorites}) => {
     const [watchedMovies, setWatchedMovies] = useState([]);
-    const { favorites } = useFavorites();
+    // const [localFavorites, setLocalFavorites] = useState([]);
+    // const { favorites, addToFavorites, removeFromFavorites } = useFavorites();
+    // const { favorites } = useFavorites();
+
+    // Sync with favorites from hook
+    // useEffect(() => {
+    //     console.log('Favorites updated from backend:', favorites);
+    //     setLocalFavorites(favorites);
+    // }, [favorites]);
+
+    const handleFavoriteToggle = async (movie) => {
+        const isCurrentlyFavorited = localFavorites.has(movie.imdbID);
+        await onToggleFavorite(movie);
+    };
 
     const toggleWatch = (movie) => {
         setWatchedMovies((prevWatched) => {
             const isAlreadyWatched = prevWatched.some((m) => m.imdbID === movie.imdbID);
-
             if (isAlreadyWatched) {
-                // Remove from watched
                 return prevWatched.filter((m) => m.imdbID !== movie.imdbID);
             } else {
-                // Add to watched
                 return [...prevWatched, movie];
             }
         });
@@ -22,17 +32,25 @@ const Movies = ({movies, onToggleFavorite}) => {
 
     return (
         <div className="container">
-            {movies.map((movie, index) => {
-                const isFavorited = favorites.some((m) => m.imdbID === movie.imdbID);
+            {movies.map((movie) => {
+                const isFavorited = localFavorites.has(movie.imdbID);
                 const isWatched = watchedMovies.some((m) => m.imdbID === movie.imdbID);
+                
+                // console.log('Rendering movie:', {
+                //     movieId: movie.imdbID,
+                //     isFavorited,
+                //     localFavoritesCount: localFavorites.length,
+                //     backendFavoritesCount: favorites.length
+                // });
+                
                 return (
                     <MovieCard
                         movie={movie}
-                        key={index}
-                        onToggleFavorite={onToggleFavorite}
+                        key={movie.imdbID}
+                        onToggleFavorite={handleFavoriteToggle}
                         onToggleWatch={toggleWatch}
                         isFavorited={isFavorited}
-                        isWatched={isWatched}
+                        isWatched={watchedMovies.some((m) => m.imdbID === movie.imdbID)}
                     />
                 );
             })}

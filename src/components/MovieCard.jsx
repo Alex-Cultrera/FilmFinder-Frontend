@@ -4,6 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatch, isWatched}) => {
+    
+    const handleFavoriteClick = (e) => {
+        e.stopPropagation();
+        onToggleFavorite(movie);
+    };
+
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => setIsHovered(true);
@@ -32,7 +38,7 @@ const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatch, isWatch
                 <div className="icon-container">
                     <div
                         className="heart-icon-container"
-                        onClick={() => onToggleFavorite(movie)}
+                        onClick={handleFavoriteClick}
                     >
                         <FontAwesomeIcon
                             icon={faHeart}
