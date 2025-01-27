@@ -3,6 +3,7 @@ import NavBar from "./NavBar";
 import SessionStatus from "./SessionStatus";
 import MovieCard from './MovieCard';
 import useFavorites from '../hooks/useFavorites';
+import '../styles/Favorites.css';
 
 const Favorites = () => {
     const {favorites, removeFromFavorites, loading } = useFavorites();
