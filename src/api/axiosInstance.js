@@ -6,6 +6,13 @@ const axiosInstance = axios.create({
     withCredentials: true,
 });
 
+// Paths that should redirect to login when unauthorized
+const protectedPaths = [
+    '/addFavorite',
+    '/removeFavorite',
+    '/watchlist',
+];
+
 // Attach a response interceptor
 axiosInstance.interceptors.response.use(
     (response) => {
@@ -14,8 +21,11 @@ axiosInstance.interceptors.response.use(
     },
     (error) => {
         if (error?.response?.status === 401 || error?.response?.status === 403) {
-            // Handle unauthorized or forbidden
-            window.location.href = '/login';
+            // Only redirect for protected paths
+            const requestPath = error.config.url;
+            if (protectedPaths.some(path => requestPath.includes(path))) {
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }

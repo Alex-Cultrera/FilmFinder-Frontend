@@ -12,7 +12,6 @@ const useFavorites = () => {
         setError(null);
         try {
             const response = await axios.get('/favorites');
-            
             // const dataString = response.data;
             // const firstArrayEnd = dataString.indexOf(']') + 1;
             // const firstArrayString = dataString.substring(0, firstArrayEnd);
@@ -30,9 +29,12 @@ const useFavorites = () => {
 
             setFavorites(normalizedFavorites);
         } catch (error) {
-            console.error('Error in fetchFavorites:', error);
-            setError('Error fetching favorites');
-            setFavorites([]);
+            if (error.response?.status === 401 || error.response?.status === 403) {
+                setFavorites([]);
+            } else {
+                console.error('Error fetching favorites:', error);
+                setError('Error fetching favorites');
+            }
         } finally {
             setLoading(false);
         }
