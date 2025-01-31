@@ -6,7 +6,7 @@ import PasswordPage from "./components/PasswordPage";
 import Dashboard from "./components/Dashboard";
 import Register from "./components/Register";
 import Settings from "./components/Settings";
-import Queue from "./components/Queue";
+import Queued from "./components/Queued";
 import Favorites from "./components/Favorites";
 import Watched from "./components/Watched";
 import Reviews from "./components/Reviews";
@@ -84,9 +84,9 @@ function App () {
                 <Route path="/password" element={<PasswordPage/>} />
                 <Route path="/dashboard" element={<Dashboard/>} />
                 <Route path="/settings" element={<Settings/>}/>
-                <Route path="/queue" element={<Queue/>}/>
-                <Route path="/favorites" element={<Favorites/>}/>
+                <Route path="/queue" element={<Queued/>}/>
                 <Route path="/watched" element={<Watched/>}/>
+                <Route path="/favorites" element={<Favorites/>}/>
                 <Route path="/reviews" element={<Reviews/>}/>
             </Routes>
         </Router>

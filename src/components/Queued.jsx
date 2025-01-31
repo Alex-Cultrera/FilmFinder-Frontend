@@ -2,10 +2,10 @@ import React from 'react';
 import NavBar from "./NavBar";
 import SessionStatus from "./SessionStatus";
 import MovieList from './MovieList';
-import useFavorites from '../hooks/useFavorites';
+import useQueued from '../hooks/useQueued';
 
-const Favorites = () => {
-    const { favorites, loading } = useFavorites();
+const Queued = () => {
+    const { queued, loading } = useQueued();
 
     if (loading) {
         return <div>Loading...</div>;
@@ -19,17 +19,18 @@ const Favorites = () => {
                     <SessionStatus/>
                 </span>
             </div>
-            <div className="favorites">
-                <h2>Favorites</h2>
+            <div className="queued">
+                <h2>Queue</h2>
                 <div className="movie-list">
-                    {favorites.length > 0 ? (
+                    {queued.length > 0 ? (
                         <MovieList 
-                            movies={favorites} 
+                            movies={queued} 
+                            showQueued={true} 
                             showWatched={true} 
                             showFavorites={true}
                         />
                     ) : (
-                        <p>You have no favorite movies yet.</p>
+                        <p>You have no queued movies yet.</p>
                     )}
                 </div>
             </div>
@@ -37,4 +38,4 @@ const Favorites = () => {
     );
 };
 
-export default Favorites;
+export default Queued;

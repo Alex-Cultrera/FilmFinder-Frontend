@@ -60,8 +60,8 @@ const HamburgerMenu = () => {
                 <ul>
                     <li><Link to="/" onClick={(e) => handleLinkClick(e, '/')}>Home</Link></li>
                     <li><Link to="/queue" onClick={(e) => handleLinkClick(e, '/queue')}>Queue</Link></li>
-                    <li><Link to="/favorites" onClick={(e) => handleLinkClick(e, '/favorites')}>Favorites</Link></li>
                     <li><Link to="/watched" onClick={(e) => handleLinkClick(e, '/watched')}>Watched</Link></li>
+                    <li><Link to="/favorites" onClick={(e) => handleLinkClick(e, '/favorites')}>Favorites</Link></li>
                     <li><Link to="/reviews" onClick={(e) => handleLinkClick(e, '/reviews')}>Reviews</Link></li>
                 </ul>
             </div>

@@ -3,11 +3,16 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faEye } from '@fortawesome/free-solid-svg-icons';
 
-const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatch, isWatched}) => {
+const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatched, isWatched}) => {
     
     const handleFavoriteClick = (e) => {
         e.stopPropagation();
         onToggleFavorite(movie);
+    };
+
+    const handleWatchedClick = (e) => {
+        e.stopPropagation();
+        onToggleWatched(movie);
     };
 
     const [isHovered, setIsHovered] = useState(false);
@@ -47,7 +52,7 @@ const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatch, isWatch
                     </div>
                     <div
                         className="watch-icon-container"
-                        onClick={() => onToggleWatch(movie)}
+                        onClick={() => onToggleWatched(movie)}
                     >
                         <FontAwesomeIcon
                             icon={faEye}

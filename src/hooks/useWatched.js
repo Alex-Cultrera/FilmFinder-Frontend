@@ -1,34 +1,34 @@
 import { useState, useEffect } from 'react';
 import axios from "../api/axiosInstance";
 
-const useFavorites = () => {
-    const [favorites, setFavorites] = useState([]);
+const useWatched = () => {
+    const [watched, setWatched] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     
-    const fetchFavorites = async () => {
+    const fetchWatched = async () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/favorites');
+            const response = await axios.get('/watched');
 
-            const favoritesData = Array.isArray(response.data) ? response.data : response.data[0];
+            const watchedData = Array.isArray(response.data) ? response.data : response.data[0];
 
-            const normalizedFavorites = favoritesData.map(fav => ({
-                imdbID: fav.imdbId,
-                Title: fav.title,
-                Poster: fav.posterUrl,
-                Year: fav.year
+            const normalizedWatched = watchedData.map(watched => ({
+                imdbID: watched.imdbId,
+                Title: watched.title,
+                Poster: watched.posterUrl,
+                Year: watched.year
             }));
 
-            setFavorites(normalizedFavorites);
+            setWatched(normalizedWatched);
         } catch (error) {
             if (error.response?.status === 401 || error.response?.status === 403) {
-                setFavorites([]);
+                setWatched([]);
             } else {
-                console.error('Error fetching favorites:', error);
-                setError('Error fetching favorites');
+                console.error('Error fetching watched:', error);
+                setError('Error fetching watched');
             }
         } finally {
             setLoading(false);
@@ -36,22 +36,22 @@ const useFavorites = () => {
     };
 
     useEffect(() => {
-        fetchFavorites();
+        fetchWatched();
     }, []);
 
-    const addToFavorites = async (movie) => {
+    const addToWatched = async (movie) => {
         setLoading(true);
         setError(null);
 
         try {
-            setFavorites(prev => [...prev, {
+            setWatched(prev => [...prev, {
                 imdbID: movie.imdbID,
                 Title: movie.Title,
                 Poster: movie.Poster,
                 Year: movie.Year
             }]);
 
-            const response = await axios.post('/addFavorite', 
+            const response = await axios.post('/addWatched', 
             {
                 imdbId: movie.imdbID,
                 title: movie.Title,
@@ -66,24 +66,24 @@ const useFavorites = () => {
             }
             );
             if (response.status === 200) {
-                await fetchFavorites();
+                await fetchWatched();
             }
         } catch (error) {
-            console.error('Error adding movie to favorites:', error);
-            setFavorites(prev => prev.filter(f => f.imdbID !== movie.imdbID));
+            console.error('Error adding movie to watched:', error);
+            setWatched(prev => prev.filter(w => w.imdbID !== movie.imdbID));
         } finally {
             setLoading(false);
         }
     };
 
-    const removeFromFavorites = async (movie) => {
+    const removeFromWatched = async (movie) => {
         setLoading(true);
         setError(null);
 
         try {
-            setFavorites(prev => prev.filter(f => f.imdbID !== movie.imdbID));
+            setWatched(prev => prev.filter(w => w.imdbID !== movie.imdbID));
 
-            const response = await axios.post('/removeFavorite',
+            const response = await axios.post('/removeWatched',
                 {
                 imdbId: movie.imdbID
                 },
@@ -94,23 +94,23 @@ const useFavorites = () => {
                 }
             );
             if (response.status === 200) {
-                await fetchFavorites();
+                await fetchWatched();
             }
         } catch (error) {
-            console.error('Error removing movie from favorites:', error);
-            setFavorites(prev => [...prev, movie]);
+            console.error('Error removing movie from watched:', error);
+            setWatched(prev => [...prev, movie]);
         } finally {
             setLoading(false);
         }
     };
 
     return {
-        favorites,
+        watched,
         loading,
         error,
-        addToFavorites,
-        removeFromFavorites
+        addToWatched,
+        removeFromWatched
     };
 };
 
-export default useFavorites;
+export default useWatched;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
+import NavBar from "./NavBar";
 import a from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import SessionStatus from "./SessionStatus";
 import '../styles/MovieDetail.css';
 
 const API_URL = 'https://www.omdbapi.com/?apikey=872871fc';
@@ -23,20 +25,34 @@ const MovieDetail = () => {
     }
 
     return (
-        <div className="movie-detail">
-            <button onClick={() => navigate(-1)}>Go Back</button> {/* Navigate back to the previous page */}
-            <h2>{movieDetails.Title} ({movieDetails.Year})</h2>
-            <img src={movieDetails.Poster} alt={movieDetails.Title} />
-            <p><strong>Rated:</strong> {movieDetails.Rated}</p>
-            <p><strong>Released:</strong> {movieDetails.Released}</p>
-            <p><strong>Runtime:</strong> {movieDetails.Runtime}</p>
-            <p><strong>Box Office (USA and Canada):</strong> {movieDetails.BoxOffice}</p>
-            <p><strong>Genre:</strong> {movieDetails.Genre}</p>
-            <p><strong>Director:</strong> {movieDetails.Director}</p>
-            <p><strong>Actors:</strong> {movieDetails.Actors}</p>
-            <p><strong>Awards:</strong> {movieDetails.Awards}</p>
-            <p><strong>Plot:</strong> {movieDetails.Plot}</p>
-        </div>
+        <div>
+            <div className="nav-container">
+                <span className="nav">
+                    <NavBar/>
+                    <SessionStatus/>
+                </span>
+            </div>
+            <div className="movie-detail">
+                <h2>{movieDetails.Title} ({movieDetails.Year})</h2>
+                <div className="details">
+                    <div>
+                        <img src={movieDetails.Poster} alt={movieDetails.Title} />
+                    </div>
+                    <div>
+                        <p><strong>Rated:</strong> {movieDetails.Rated}</p>
+                        <p><strong>Released:</strong> {movieDetails.Released}</p>
+                        <p><strong>Runtime:</strong> {movieDetails.Runtime}</p>
+                        <p><strong>Box Office (USA and Canada):</strong> {movieDetails.BoxOffice}</p>
+                        <p><strong>Genre:</strong> {movieDetails.Genre}</p>
+                        <p><strong>Director:</strong> {movieDetails.Director}</p>
+                        <p><strong>Actors:</strong> {movieDetails.Actors}</p>
+                        <p><strong>Awards:</strong> {movieDetails.Awards}</p>
+                        <p><strong>Plot:</strong> {movieDetails.Plot}</p>
+                    </div>
+                </div>
+                <button onClick={() => navigate(-1)}>Go Back</button> {/* Navigate back to the previous page */}
+            </div>
+        </div> 
     );
 };
 

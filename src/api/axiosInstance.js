@@ -8,9 +8,12 @@ const axiosInstance = axios.create({
 
 // Paths that should redirect to login when unauthorized
 const protectedPaths = [
+    '/addQueued',
+    '/removeQueued',
+    '/addWatched',
+    '/removeWatched',
     '/addFavorite',
     '/removeFavorite',
-    '/watchlist',
 ];
 
 // Attach a response interceptor

@@ -1,34 +1,34 @@
 import { useState, useEffect } from 'react';
 import axios from "../api/axiosInstance";
 
-const useFavorites = () => {
-    const [favorites, setFavorites] = useState([]);
+const useQueued = () => {
+    const [queued, setQueued] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
     
-    const fetchFavorites = async () => {
+    const fetchQueued = async () => {
         setLoading(true);
         setError(null);
         try {
-            const response = await axios.get('/favorites');
+            const response = await axios.get('/queued');
 
-            const favoritesData = Array.isArray(response.data) ? response.data : response.data[0];
+            const queuedData = Array.isArray(response.data) ? response.data : response.data[0];
 
-            const normalizedFavorites = favoritesData.map(fav => ({
-                imdbID: fav.imdbId,
-                Title: fav.title,
-                Poster: fav.posterUrl,
-                Year: fav.year
+            const normalizedQueued = queuedData.map(queued => ({
+                imdbID: queued.imdbId,
+                Title: queued.title,
+                Poster: queued.posterUrl,
+                Year: queued.year
             }));
 
-            setFavorites(normalizedFavorites);
+            setQueued(normalizedQueued);
         } catch (error) {
             if (error.response?.status === 401 || error.response?.status === 403) {
-                setFavorites([]);
+                setQueued([]);
             } else {
-                console.error('Error fetching favorites:', error);
-                setError('Error fetching favorites');
+                console.error('Error fetching queued:', error);
+                setError('Error fetching queued');
             }
         } finally {
             setLoading(false);
@@ -36,22 +36,22 @@ const useFavorites = () => {
     };
 
     useEffect(() => {
-        fetchFavorites();
+        fetchQueued();
     }, []);
 
-    const addToFavorites = async (movie) => {
+    const addToQueued = async (movie) => {
         setLoading(true);
         setError(null);
 
         try {
-            setFavorites(prev => [...prev, {
+            setQueued(prev => [...prev, {
                 imdbID: movie.imdbID,
                 Title: movie.Title,
                 Poster: movie.Poster,
                 Year: movie.Year
             }]);
 
-            const response = await axios.post('/addFavorite', 
+            const response = await axios.post('/addQueued', 
             {
                 imdbId: movie.imdbID,
                 title: movie.Title,
@@ -66,24 +66,24 @@ const useFavorites = () => {
             }
             );
             if (response.status === 200) {
-                await fetchFavorites();
+                await fetchQueued();
             }
         } catch (error) {
-            console.error('Error adding movie to favorites:', error);
-            setFavorites(prev => prev.filter(f => f.imdbID !== movie.imdbID));
+            console.error('Error adding movie to queued:', error);
+            setQueued(prev => prev.filter(w => w.imdbID !== movie.imdbID));
         } finally {
             setLoading(false);
         }
     };
 
-    const removeFromFavorites = async (movie) => {
+    const removeFromQueued = async (movie) => {
         setLoading(true);
         setError(null);
 
         try {
-            setFavorites(prev => prev.filter(f => f.imdbID !== movie.imdbID));
+            setQueued(prev => prev.filter(w => w.imdbID !== movie.imdbID));
 
-            const response = await axios.post('/removeFavorite',
+            const response = await axios.post('/removeQueued',
                 {
                 imdbId: movie.imdbID
                 },
@@ -94,23 +94,23 @@ const useFavorites = () => {
                 }
             );
             if (response.status === 200) {
-                await fetchFavorites();
+                await fetchQueued();
             }
         } catch (error) {
-            console.error('Error removing movie from favorites:', error);
-            setFavorites(prev => [...prev, movie]);
+            console.error('Error removing movie from queued:', error);
+            setQueued(prev => [...prev, movie]);
         } finally {
             setLoading(false);
         }
     };
 
     return {
-        favorites,
+        queued,
         loading,
         error,
-        addToFavorites,
-        removeFromFavorites
+        addToQueued,
+        removeFromQueued
     };
 };
 
-export default useFavorites;
+export default useQueued;

@@ -50,6 +50,7 @@
 
 .dropdown-menu.open {
     display: block;
+    z-index: 1;
 }
 
 /* Menu item styles */
