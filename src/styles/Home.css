@@ -226,12 +226,11 @@ h1 {
     opacity: 1;
 }
 
-.heart-icon-container,
-.watch-icon-container {
+.watch-icon-container,
+.heart-icon-container {
     cursor: pointer;
     display: flex;
     justify-content: right;
-    /*transition: transform 0.3s ease;*/
 }
 
 .watch-icon-container {
@@ -239,25 +238,32 @@ h1 {
     opacity: 1;
 }
 
-.heart-icon,
-.watch-icon  {
-    font-size: 1.5rem;
-    color: white;
-    /*transition: transform 0.3s ease, color 0.2s ease;*/
+.heart-icon-container {
+    margin-left: 10px;
+    opacity: 1;
 }
 
+.queue-icon,
+.watch-icon,
+.heart-icon {
+    font-size: 1.5rem;
+    color: white;
+}
 
-.movie:hover .heart-icon-container:hover .heart-icon,
-.movie:hover .watch-icon-container:hover .watch-icon {
+.movie:hover .queue-icon-container:hover .queue-icon,
+.movie:hover .watch-icon-container:hover .watch-icon,
+.movie:hover .heart-icon-container:hover .heart-icon {
     transform: scale(1.2);
 }
 
-.heart-icon.favorited,
-.watch-icon.watched {
-    color: red;
+.queue-icon.queued,
+.watch-icon.watched,
+.heart-icon.favorited {
+    color: #FFCB9A;
 }
 
-.heart-icon-container:active .heart-icon,
-.watch-icon-container:active .watch-icon {
-    color: red;
+.queue-icon-container:active .queue-icon,
+.watch-icon-container:active .watch-icon,
+.heart-icon-container:active .heart-icon {
+    color: #FFCB9A;
 }

@@ -38,7 +38,7 @@ const MovieDetail = () => {
                     <div>
                         <img src={movieDetails.Poster} alt={movieDetails.Title} />
                     </div>
-                    <div>
+                    <div className="about">
                         <p><strong>Rated:</strong> {movieDetails.Rated}</p>
                         <p><strong>Released:</strong> {movieDetails.Released}</p>
                         <p><strong>Runtime:</strong> {movieDetails.Runtime}</p>

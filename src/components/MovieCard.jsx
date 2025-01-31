@@ -1,18 +1,23 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faEye } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faEye, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 
-const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatched, isWatched}) => {
+const MovieCard = ({movie, onToggleQueued, isQueued, onToggleWatched, isWatched, onToggleFavorite, isFavorited}) => {
+    
+    const handleQueuedClick = (e) => {
+        e.stopPropagation();
+        onToggleQueued(movie);
+    };
+    
+    const handleWatchedClick = (e) => {
+        e.stopPropagation();
+        onToggleWatched(movie);
+    };
     
     const handleFavoriteClick = (e) => {
         e.stopPropagation();
         onToggleFavorite(movie);
-    };
-
-    const handleWatchedClick = (e) => {
-        e.stopPropagation();
-        onToggleWatched(movie);
     };
 
     const [isHovered, setIsHovered] = useState(false);
@@ -42,12 +47,12 @@ const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatched, isWat
             {isHovered && (
                 <div className="icon-container">
                     <div
-                        className="heart-icon-container"
-                        onClick={handleFavoriteClick}
+                        className="queue-icon-container"
+                        onClick={() => onToggleQueued(movie)}
                     >
                         <FontAwesomeIcon
-                            icon={faHeart}
-                            className={`heart-icon ${isFavorited ? 'favorited' : ''}`}
+                            icon={faCirclePlus}
+                            className={`queue-icon ${isQueued ? 'queued' : ''}`}
                         />
                     </div>
                     <div
@@ -57,6 +62,15 @@ const MovieCard = ({movie, onToggleFavorite, isFavorited, onToggleWatched, isWat
                         <FontAwesomeIcon
                             icon={faEye}
                             className={`watch-icon ${isWatched ? 'watched' : ''}`}
+                        />
+                    </div>
+                    <div
+                        className="heart-icon-container"
+                        onClick={handleFavoriteClick}
+                    >
+                        <FontAwesomeIcon
+                            icon={faHeart}
+                            className={`heart-icon ${isFavorited ? 'favorited' : ''}`}
                         />
                     </div>
                 </div>

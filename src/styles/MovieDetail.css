@@ -39,3 +39,10 @@
 .movie-detail button:hover {
     background-color: #D9B08C;
 }
+
+.about {
+    background: white;
+    border-radius: 12px;
+    padding: 1rem;
+    color: #444;
+}
