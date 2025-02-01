@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import '../styles/Home.css';
 import SearchIcon from '../images/search.svg';
-import axios from "../api/axiosInstance";
 import a from "axios";
 import {SearchBox} from "./SearchBox";
 import Movies from "./Movies.jsx";
@@ -12,11 +11,13 @@ import useWatched from '../hooks/useWatched';
 import useFavorites from '../hooks/useFavorites';
 
 const API_URL = 'http://www.omdbapi.com/?apikey=872871fc';
-// https://www.omdbapi.com/?apikey=[YOUR-KEY]&s=${name}&page=${page}
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
+    const [page, setPage] = useState(1);
+    const [loading, setLoading] = useState(false);
+    const [totalResults, setTotalResults] = useState(0);
     const {queued, addToQueued, removeFromQueued} = useQueued();
     const {watched, addToWatched, removeFromWatched} = useWatched();
     const {favorites, addToFavorites, removeFromFavorites} = useFavorites();
@@ -24,7 +25,7 @@ const Home = () => {
     const [localWatched, setLocalWatched] = useState(new Set());
     const [localFavorites, setLocalFavorites] = useState(new Set());
 
-    // Sync localFavorites and localWatchedwith favorites and watchedfrom hooks
+    // Sync localQueued, localWatched, and localFavorites, with queued, watched, and favorites from hooks
     useEffect(() => {
         const queuedIds = new Set(queued.map(w => w.imdbID));
         setLocalQueued(queuedIds);
@@ -34,22 +35,53 @@ const Home = () => {
         setLocalFavorites(favoriteIds);
     }, [queued, watched, favorites]);
 
-    const searchMovies = async (title) => {
-        const response = await a.get(`${API_URL}&s=${title}`);
-        const data = await response.data;
-        if (data) {
-            setMovies(data.Search);
-        }
-        console.log(data);
+    const handleSearch = async (val) => {
+        await searchMovies(val, 1)
     }
+
+    const searchMovies = async (title, pageNumber = 1) => {
+        setLoading(true);
+        try {
+            const response = await a.get(`${API_URL}&s=${title}&page=${pageNumber}`);
+            const data = response.data;
+            if (data && data.Search) {
+                setMovies(prevMovies => [...prevMovies, ...data.Search]);
+                setTotalResults(data.totalResults);
+            }
+        } catch (error) {
+            console.error('Search error:', error);
+            // Optionally set an error state here to show to the user
+        } finally {
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        searchMovies('Spider-man')
-    }, []);
+        if (searchTerm) {
+            setMovies([]); // Clear previous results
+            setPage(1); // Reset to first page
+            searchMovies(searchTerm, 1);
+        } 
+        else {
+            searchMovies('Spider-man', 1);
+        }
+    }, [searchTerm]);
 
-    const handleSearch = async (val) => {
-        await searchMovies(val)
-    }
+    // Infinite scroll logic
+    const handleScroll = () => {
+        if (window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight || loading) return;
+        setPage(prevPage => {
+            const nextPage = prevPage + 1;
+            searchMovies(searchTerm, nextPage);
+            return nextPage;
+        });
+    };
+
+    useEffect(() => {
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, [loading, searchTerm]);
+
 
     const handleToggleQueued = async (movie) => {
         // Toggle local state immediately
@@ -191,7 +223,6 @@ const Home = () => {
                         </div>
                     )}
 
-                    {/*{error && <div className="error">{error}</div>}*/}
             </div>
         </div>
     );

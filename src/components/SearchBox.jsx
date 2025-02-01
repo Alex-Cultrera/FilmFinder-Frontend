@@ -1,11 +1,10 @@
-
-export const SearchBox = ({searchTerm, setSearchTerm,
-                  searchMovies, SearchIcon, handleSearch}) => {
-function handleKeyPress(e) {
-    if (e.key === 'Enter') {
-        searchMovies(searchTerm)
+export const SearchBox = ({searchTerm, setSearchTerm, searchMovies, SearchIcon, handleSearch}) => {
+    function handleKeyPress(e) {
+        if (e.key === 'Enter') {
+            handleSearch(searchTerm);
+        }
     }
-}
+
     return (
         <div className="search">
             <input
@@ -21,7 +20,7 @@ function handleKeyPress(e) {
             <img
                 src={SearchIcon}
                 alt="search"
-                onClick={() => searchMovies(searchTerm)}
+                onClick={() => handleSearch(searchTerm)}
             />
         </div>
     )

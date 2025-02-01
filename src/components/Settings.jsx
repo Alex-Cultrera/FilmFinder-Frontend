@@ -3,6 +3,7 @@ import { usePassword } from '../hooks/usePassword';
 import NavBar from "./NavBar";
 import axios from "../api/axiosInstance";
 import SessionStatus from "./SessionStatus";
+import '../styles/Settings.css';
 
 const Settings = () => {
     const {
@@ -111,24 +112,26 @@ const Settings = () => {
                     <SessionStatus/>
                 </span>
                 <h2>Update Password</h2>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="password"
-                        placeholder="New Password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                    <input
-                        type="password"
-                        placeholder="Confirm New Password"
-                        value={confirmPassword}
-                        onChange={handleConfirmPasswordChange}
-                    />
-                    {error && <div className="error-message">{error}</div>}
-                    <button type="submit" disabled={loading}>
-                        {loading ? 'Updating...' : 'Update Password'}
-                    </button>
-                </form>
+                <div className="password-container">
+                    <form onSubmit={handleSubmit}>
+                        <input
+                            type="password"
+                            placeholder="New Password"
+                            value={password}
+                            onChange={handlePasswordChange}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Confirm New Password"
+                            value={confirmPassword}
+                            onChange={handleConfirmPasswordChange}
+                        />
+                        {error && <div className="error-message">{error}</div>}
+                        <button type="submit" disabled={loading}>
+                            {loading ? 'Updating...' : 'Update Password'}
+                        </button>
+                    </form>
+                </div>
                 <h2>Update Profile Photo</h2>
                 <input
                     type="file"
