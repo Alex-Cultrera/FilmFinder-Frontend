@@ -73,4 +73,72 @@
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0,123,255,0.25);
-} 
+}
+
+.review-container {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.review-profile-photo {
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.review-user-name {
+    font-weight: 600;
+    color: #333;
+}
+
+.review-content {
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+.review-date {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.review-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.review-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    background-color: #f0f0f0;
+}
+
+.review-button:hover {
+    background-color: #e0e0e0;
+}
+
+.delete-button {
+    color: #dc3545;
+    background-color: transparent;
+}
+
+.delete-button:hover {
+    background-color: #ffebee;
+}

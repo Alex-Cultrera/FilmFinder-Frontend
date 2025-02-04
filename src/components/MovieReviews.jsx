@@ -44,18 +44,14 @@ const MovieReviews = ({ movieId, movieDetails, currentUser }) => {
                 reviewSubject: newReview.reviewSubject,
                 content: newReview.content,
                 rating: newReview.rating,
-                userId: currentUser.id,
-                movieId: movieId,
-                firstName: currentUser.first,
+                userId: currentUser.user_id,
+                firstName: currentUser.first_name,
                 profilePhotoUrl: currentUser.profilePhoto,
+                movieId: movieId,
                 title: movieDetails.Title,
-                posterUrl: movieDetails.Poster,
                 year: movieDetails.Year,
                 type: movieDetails.Type,
-                rated: movieDetails.Rated,
-                runtime: movieDetails.Runtime,
-                plot: movieDetails.Plot,
-                releaseDate: movieDetails.releaseDate
+                posterUrl: movieDetails.Poster,
             };
 
             const response = await axios.post(`/movies/${movieId}/review`, reviewData);

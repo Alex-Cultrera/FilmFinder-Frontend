@@ -8,25 +8,29 @@
 .hello {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .guest {
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .profile-icon {
     font-size: 30px;
-    margin-right: 5px;
     cursor: pointer;
 }
 
+
 .profile-photo {
     border-radius: 50px;
-    width: 35px;
     display: flex;
     align-items: center;
-    margin-right: 5px;
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 50%;
 }
 
 .dropdown {

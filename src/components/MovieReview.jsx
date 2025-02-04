@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/MovieReview.css';
+import DEFAULT_PHOTO from '../utils/defaultAvatar';
 
 const MovieReview = ({ review, onEdit, onDelete, isCurrentUser }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -55,19 +56,21 @@ const MovieReview = ({ review, onEdit, onDelete, isCurrentUser }) => {
                 <div className="review-user-info">
                     {review.profilePhotoUrl && (
                         <img 
-                            src={review.profilePhotoUrl} 
+                            src={review.profilePhotoUrl || DEFAULT_PHOTO} 
                             alt={review.firstName}
                             className="review-user-photo"
                         />
                     )}
                     <span className="review-username">{review.firstName}</span>
+                    <span className="review-rating">
+                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
+                    </span>
                     <span className="review-date">
                         {new Date(review.createdAt).toLocaleDateString()}
                     </span>
                 </div>
-                <div className="review-rating">
-                    {'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}
-                </div>
+                
+                
             </div>
             <h4 className="review-subject">{review.reviewSubject}</h4>
             <p className="review-content">{review.content}</p>

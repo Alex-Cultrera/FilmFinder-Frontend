@@ -1,14 +1,15 @@
 import React, {useState, useEffect, useRef} from 'react';
 import '../styles/SessionStatus.css';
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome';
-import {faCircleUser} from '@fortawesome/free-solid-svg-icons';
 import {Link, useNavigate} from "react-router-dom";
 import {googleLogout} from "@react-oauth/google";
+import { useProfilePhoto } from '../hooks/useProfilePhoto';
+import DEFAULT_PHOTO from '../utils/defaultAvatar';
 
 const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const [profilePhotoUrl, setProfilePhotoUrl] = useState('');
+    const [profilePhotoUrl, setProfilePhotoUrl] = useState(DEFAULT_PHOTO);
+    const { getProfilePhoto } = useProfilePhoto();
     const photoRef = useRef(null);
     const userMenuRef = useRef(null);
     const navigate = useNavigate();
@@ -17,54 +18,32 @@ const SessionStatus = () => {
     const firstName = localStorage.getItem('first_name');
 
     useEffect(() => {
-        const savedPhotoUrl = localStorage.getItem('profile_photo_url');
-        if (savedPhotoUrl) {
-            setProfilePhotoUrl(savedPhotoUrl);
+        if (userId) {
             setIsLoggedIn(true);
+            const photoUrl = getProfilePhoto();
+            setProfilePhotoUrl(photoUrl);
         } else {
-            if (userId) {
-                console.log("settingIsLoggedIn")
-                setIsLoggedIn(true);
-                fetchProfilePhoto();
-            } else {
-                setIsLoggedIn(false);
-            }
+            setIsLoggedIn(false);
+            setProfilePhotoUrl(DEFAULT_PHOTO);
         }
     }, [userId]);
 
-    const fetchProfilePhoto = () => {
-        try {
-            const photoUrl = 'https://lh3.googleusercontent.com/a/ACg8ocJA8alnJkImlJmPmDtDPBd4nhaG7UcrZN-rAlGvoKca_fuKUdLv=s96-c';
+    useEffect(() => {
+        const handleProfilePhotoUpdate = () => {
+            const photoUrl = getProfilePhoto();
             setProfilePhotoUrl(photoUrl);
-            localStorage.setItem('profile_photo_url', photoUrl);
-        } catch (error) {
-                    console.error('Error fetching profile photo:', error);
-                }
+        };
 
-    }
+        window.addEventListener('profilePhotoUpdated', handleProfilePhotoUpdate);
+        return () => {
+            window.removeEventListener('profilePhotoUpdated', handleProfilePhotoUpdate);
+        };
+    }, []);
 
     const handleImageError = () => {
-        setProfilePhotoUrl('path-to-default-image.jpg'); // Fallback image
+        console.log('Image failed to load, using default');
+        setProfilePhotoUrl(DEFAULT_PHOTO);
     };
-
-
-    // const fetchProfilePhoto = async () => {
-    //     try {
-    //         const response = await axios.get(`/api/users/${userId}/profilePhoto`, {
-    //             headers: {
-    //                 Authorization: `Bearer ${token}`,
-    //             },
-    //         });
-    //
-    //         const { photoUrl } = response.data; // Assuming the backend returns { photoUrl: "image-url" }
-    //         setProfilePhotoUrl(photoUrl);
-    //     } catch (error) {
-    //         console.error('Error fetching profile photo:', error);
-    //     }
-    // };
-
-
-
 
     const handleLogout = () => {
         googleLogout()
@@ -77,7 +56,6 @@ const SessionStatus = () => {
         setIsLoggedIn(false);
         navigate('/login');
     };
-
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
@@ -107,42 +85,32 @@ const SessionStatus = () => {
             {isLoggedIn ? (
                 <div className="hello">
                     <span className="profile-icon">
-                        {profilePhotoUrl ? (
-                            <img
-                                src={profilePhotoUrl}
-                                className="profile-photo"
-                                referrerPolicy={"no-referrer"}
-                                alt="Profile"
-                                onClick={toggleDropdown}
-                                ref={photoRef}
-                                onError={handleImageError}
-                            />
-                        ) : (
-                            <FontAwesomeIcon
-                                icon={faCircleUser}
-                                onClick={toggleDropdown}
-                                ref={photoRef}
-                            />
-                        )}
+                        <img
+                            src={profilePhotoUrl}
+                            className="profile-photo"
+                            referrerPolicy="no-referrer"
+                            alt="Profile"
+                            onClick={toggleDropdown}
+                            ref={photoRef}
+                            onError={handleImageError}
+                        />
                     </span>
-                    <span>
-                        Hello, {firstName ? firstName : "Loading..."}
-                    </span>
+                    <span>Hello, {firstName || "Loading..."}</span>
                 </div>
             ) : (
                 <div className="guest">
                     <span className="profile-icon">
-                        <FontAwesomeIcon
-                            icon={faCircleUser}
+                        <img
+                            src={DEFAULT_PHOTO}
+                            className="profile-photo"
+                            alt="Guest"
                             onClick={toggleDropdown}
                             ref={photoRef}
                         />
                     </span>
-                    <span>
-                        Welcome, Guest
-                    </span>
+                    <span>Welcome, Guest</span>
                 </div>
-                )}
+            )}
 
             {dropdownOpen && (
                 <div className="dropdown" ref={userMenuRef}>

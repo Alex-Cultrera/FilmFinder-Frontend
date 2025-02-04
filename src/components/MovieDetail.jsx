@@ -32,7 +32,7 @@ const MovieDetail = () => {
     };
 
     const currentUser = getCurrentUser();
-    console.log('Current user in MovieDetail:', currentUser); // Debug log
+    console.log('Current user in MovieDetail:', currentUser);
 
     useEffect(() => {
         const fetchMovieDetails = async () => {

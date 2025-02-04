@@ -14,13 +14,6 @@ function Login() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    // useEffect(() => {
-    //     const token = getCookieValue('accessToken');
-    //     if (token) {
-    //         navigate('/dashboard');
-    //     }
-    // }, [navigate]);
-
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
         setError(null);
@@ -45,11 +38,11 @@ function Login() {
 
             console.log(response);
             if (response.data) {
-                const { userId, firstName } = response.data;
-                // document.cookie = `accessToken=${accessToken}; Secure; HttpOnly; SameSite=Strict`;
+                const { userId, firstName, photo } = response.data;
                 localStorage.setItem('user_id', userId);
                 localStorage.setItem('first_name', firstName);
                 localStorage.setItem('user_email', email);
+                localStorage.setItem('profile_photo_url', photo);
                 navigate('/dashboard');
             }
         } catch (error) {
