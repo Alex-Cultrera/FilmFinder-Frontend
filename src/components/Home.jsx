@@ -39,10 +39,27 @@ const Home = () => {
         await searchMovies(val, 1)
     }
 
-    const searchMovies = async (title, pageNumber = 1) => {
+    const searchMovies = async (title, pageNumber) => {
         setLoading(true);
         try {
             const response = await a.get(`${API_URL}&s=${title}&page=${pageNumber}`);
+            const data = response.data;
+            if (data && data.Search) {
+                setMovies(prevMovies => [...prevMovies, ...data.Search]);
+                setTotalResults(data.totalResults);
+            }
+        } catch (error) {
+            console.error('Search error:', error);
+            // Optionally set an error state here to show to the user
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+    const getAllRecentMovies = async (title, year, pageNumber) => {
+        setLoading(true);
+        try {
+            const response = await a.get(`${API_URL}&s=${title}&y=${year}&page=${pageNumber}`);
             const data = response.data;
             if (data && data.Search) {
                 setMovies(prevMovies => [...prevMovies, ...data.Search]);
@@ -63,7 +80,7 @@ const Home = () => {
             searchMovies(searchTerm, 1);
         } 
         else {
-            searchMovies('Spider-man', 1);
+            searchMovies('Day', 1);
         }
     }, [searchTerm]);
 

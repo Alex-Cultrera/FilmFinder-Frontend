@@ -34,6 +34,7 @@
     border-radius: 12px;
     border: none;
     cursor: pointer;
+    margin-top: 1.5rem;
 }
 
 .movie-detail button:hover {

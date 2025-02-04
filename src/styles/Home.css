@@ -8,7 +8,6 @@
 }
 
 
-
 :root {
     --font-roboto: "Roboto Slab", serif;
     --font-raleway: "Raleway", sans-serif;
@@ -164,9 +163,6 @@ h1 {
     opacity: 0.3;
 }
 
-/*.movie:hover .icon-container .watch-icon-container .watch-icon {*/
-/*    opacity: 1;*/
-/*}*/
 
 .movie:hover .label {
     background-color: transparent;
