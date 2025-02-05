@@ -10,7 +10,11 @@ import useQueued from '../hooks/useQueued';
 import useWatched from '../hooks/useWatched';
 import useFavorites from '../hooks/useFavorites';
 
-const API_URL = 'http://www.omdbapi.com/?apikey=872871fc';
+
+// Add fallback values
+const OMDB_BASE_URL = process.env.REACT_APP_OMDB_BASE_URL || 'http://www.omdbapi.com';
+const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY || '872871fc';
+const OMDB_API_URL = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}`;
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -42,7 +46,7 @@ const Home = () => {
     const searchMovies = async (title, pageNumber) => {
         setLoading(true);
         try {
-            const response = await a.get(`${API_URL}&s=${title}&page=${pageNumber}`);
+            const response = await a.get(`${OMDB_API_URL}&s=${title}&page=${pageNumber}`);
             const data = response.data;
             if (data && data.Search) {
                 setMovies(prevMovies => [...prevMovies, ...data.Search]);
@@ -59,7 +63,7 @@ const Home = () => {
     const getAllRecentMovies = async (title, year, pageNumber) => {
         setLoading(true);
         try {
-            const response = await a.get(`${API_URL}&s=${title}&y=${year}&page=${pageNumber}`);
+            const response = await a.get(`${OMDB_API_URL}&s=${title}&y=${year}&page=${pageNumber}`);
             const data = response.data;
             if (data && data.Search) {
                 setMovies(prevMovies => [...prevMovies, ...data.Search]);

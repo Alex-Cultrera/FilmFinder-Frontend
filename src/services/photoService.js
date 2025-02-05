@@ -1,11 +1,19 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import { Upload } from "@aws-sdk/lib-storage";
 
-const s3Client = new S3Client({
+// Single configuration setup
+const config = {
     region: process.env.REACT_APP_AWS_REGION,
+    accessKey: process.env.REACT_APP_AWS_ACCESS_KEY,
+    secretKey: process.env.REACT_APP_AWS_SECRET_KEY,
+    bucket: process.env.REACT_APP_S3_BUCKET
+};
+
+const s3Client = new S3Client({
+    region: config.region,
     credentials: {
-        accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-        secretAccessKey: process.env.REACT_APP_AWS_SECRET_KEY,
+        accessKeyId: config.accessKey,
+        secretAccessKey: config.secretKey
     }
 });
 
@@ -39,7 +47,7 @@ export const uploadPhoto = async (file, userId) => {
         const params = {
             client: s3Client,
             params: {
-                Bucket: process.env.REACT_APP_S3_BUCKET,
+                Bucket: config.bucket,
                 Key: `profile-photos/${filename}`,
                 Body: file,
                 ContentType: file.type
@@ -49,7 +57,7 @@ export const uploadPhoto = async (file, userId) => {
         const upload = new Upload(params);
         await upload.done();
         
-        const photoUrl = `https://${process.env.REACT_APP_S3_BUCKET}.s3.${process.env.REACT_APP_AWS_REGION}.amazonaws.com/profile-photos/${filename}`;
+        const photoUrl = `https://${config.bucket}.s3.${config.region}.amazonaws.com/profile-photos/${filename}`;
         return photoUrl;
     } catch (error) {
         console.error('Upload failed:', error);

@@ -17,8 +17,9 @@ const MovieReviews = ({ movieId, movieDetails, currentUser }) => {
     useEffect(() => {
         const fetchReviews = async () => {
             try {
-                const response = await axios.get(`/movies/${movieId}/reviews`);
+                const response = await axios.get(`review/movies/${movieId}/all`);
                 setReviews(response.data);
+                console.log(response.data);
             } catch (err) {
                 setError('Failed to load reviews');
                 console.error(err);
@@ -54,8 +55,7 @@ const MovieReviews = ({ movieId, movieDetails, currentUser }) => {
                 posterUrl: movieDetails.Poster,
             };
 
-            const response = await axios.post(`/movies/${movieId}/review`, reviewData);
-
+            const response = await axios.post(`/review/movies/${movieId}/new`, reviewData);
             setReviews(prev => [...prev, response.data]);
             setNewReview({ reviewSubject: '', content: '', rating: 5 });
         } catch (err) {
@@ -69,7 +69,7 @@ const MovieReviews = ({ movieId, movieDetails, currentUser }) => {
     // Edit review
     const handleEditReview = async (reviewId, updatedData) => {
         try {
-            const response = await axios.put(`/api/reviews/${reviewId}`, updatedData);
+            const response = await axios.put(`/review/${reviewId}/update`, updatedData);
             setReviews(prev => 
                 prev.map(review => 
                     review.reviewId === reviewId ? response.data : review
@@ -86,7 +86,7 @@ const MovieReviews = ({ movieId, movieDetails, currentUser }) => {
         if (!window.confirm('Are you sure you want to delete this review?')) return;
 
         try {
-            await axios.delete(`/api/reviews/${reviewId}`);
+            await axios.delete(`/review/${reviewId}/delete`);
             setReviews(prev => prev.filter(review => review.reviewId !== reviewId));
         } catch (err) {
             setError('Failed to delete review');
@@ -151,7 +151,7 @@ const MovieReviews = ({ movieId, movieDetails, currentUser }) => {
                             review={review}
                             onEdit={handleEditReview}
                             onDelete={handleDeleteReview}
-                            isCurrentUser={currentUser?.id === review.userId}
+                            isCurrentUser={currentUser?.user_id === String(review.userId)}
                         />
                     ))
                 )}

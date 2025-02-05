@@ -4,6 +4,7 @@ import DEFAULT_PHOTO from '../utils/defaultAvatar';
 
 const MovieReview = ({ review, onEdit, onDelete, isCurrentUser }) => {
     const [isEditing, setIsEditing] = useState(false);
+    console.log('isCurrentUser:', isCurrentUser, 'reviewId:', review.reviewId);
     const [editedContent, setEditedContent] = useState(review.content);
     const [editedSubjectLine, setEditedSubjectLine] = useState(review.reviewSubject);
     const [editedRating, setEditedRating] = useState(review.rating);
