@@ -1,14 +1,9 @@
 .reviews-container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-.reviews-header {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    width: 100%;
+    justify-content: center;
 }
 
 .toggle-reviews-button {

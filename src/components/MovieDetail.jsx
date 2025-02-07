@@ -5,34 +5,15 @@ import { useParams, useNavigate } from 'react-router-dom';
 import SessionStatus from "./SessionStatus";
 import '../styles/MovieDetail.css';
 import MovieReviews from './MovieReviews';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 const API_URL = 'https://www.omdbapi.com/?apikey=872871fc';
+
 const MovieDetail = () => {
     const [movieDetails, setMovieDetails] = useState(null);
-    const { imdbID } = useParams(); // Get the imdbID from the URL
+    const { imdbID } = useParams();
     const navigate = useNavigate();
-
-    // Get user data from individual localStorage items
-    const getCurrentUser = () => {
-        const first_name = localStorage.getItem('first_name');
-        const profile_photo_url = localStorage.getItem('profile_photo_url');
-        const user_email = localStorage.getItem('user_email');
-        const user_id = localStorage.getItem('user_id');
-
-        // Only return user object if we have the essential data
-        if (first_name && user_id) {
-            return {
-                user_id: user_id,
-                first_name: first_name,
-                email: user_email,
-                profilePhoto: profile_photo_url
-            };
-        }
-        return null;
-    };
-
-    const currentUser = getCurrentUser();
-    console.log('Current user in MovieDetail:', currentUser);
+    const { currentUser } = useCurrentUser();
 
     useEffect(() => {
         const fetchMovieDetails = async () => {

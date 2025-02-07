@@ -3,12 +3,33 @@ import NavBar from "./NavBar";
 import SessionStatus from "./SessionStatus";
 import MovieList from './MovieList';
 import useFavorites from '../hooks/useFavorites';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 const Favorites = () => {
     const { favorites, loading } = useFavorites();
+    const { currentUser } = useCurrentUser();
 
     if (loading) {
         return <div>Loading...</div>;
+    }
+
+    if (!currentUser) {
+        return (
+            <div>   
+                <div className="nav-container">
+                    <span className="nav">
+                        <NavBar/>
+                        <SessionStatus/>
+                </span>
+                </div>
+                <div className="reviews-container">
+                    <h2>Favorites</h2>
+                    <div className="movie-list">
+                        <p>Please log in to view your favorites list.</p>
+                    </div>
+                </div>
+            </div>
+        );
     }
 
     return (

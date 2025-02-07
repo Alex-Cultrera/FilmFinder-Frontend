@@ -97,7 +97,11 @@ const MovieReviews = ({ movieId, movieDetails, currentUser }) => {
     return (
         <div className="movie-reviews">
             <h3>Reviews</h3>
-            
+            {!currentUser && (
+                <div className="review-form">
+                    <p>Please log in to leave a review</p>
+                </div>
+            )}
             {currentUser && (
                 <form onSubmit={handleSubmitReview} className="review-form">
                     <input

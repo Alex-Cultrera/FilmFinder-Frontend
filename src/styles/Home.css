@@ -7,7 +7,6 @@
     box-sizing: border-box;
 }
 
-
 :root {
     --font-roboto: "Roboto Slab", serif;
     --font-raleway: "Raleway", sans-serif;
@@ -53,7 +52,6 @@ h1 {
     -webkit-box-shadow: 5px 5px 7px #1c1d1f, -5px -5px 7px #222527;
     box-shadow: 5px 5px 7px #1c1d1f, -5px -5px 7px #222527;
 }
-
 
 .search input {
     flex: 1;
@@ -163,7 +161,6 @@ h1 {
     opacity: 0.3;
 }
 
-
 .movie:hover .label {
     background-color: transparent;
 }
@@ -171,46 +168,6 @@ h1 {
 .movie:hover .overlay {
     opacity: 1;
 }
-
-@media screen and (max-width: 600px) {
-    .home {
-        padding: 4rem 2rem;
-    }
-
-    .search {
-        padding: 1rem 1.75rem;
-        width: 100%;
-    }
-
-    .search input {
-        font-size: 1rem;
-    }
-
-    .search img {
-        width: 20px;
-        height: 20px;
-    }
-}
-
-@media screen and (max-width: 400px) {
-    .home {
-        padding: 4rem 1rem;
-    }
-
-    h1 {
-        font-size: 2rem;
-    }
-
-    .container {
-        margin-top: 2rem;
-    }
-
-    .movie {
-        width: 100%;
-        margin: 1rem;
-    }
-}
-
 
 .icon-container {
     position: absolute;
@@ -292,4 +249,54 @@ input[type="password"] {
     border: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.movie-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+    width: 100%;
+    justify-content: center;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 600px) {
+    .home {
+        padding: 4rem 2rem;
+    }
+
+    .search {
+        padding: 1rem 1.75rem;
+        width: 100%;
+    }
+
+    .search input {
+        font-size: 1rem;
+    }
+
+    .search img {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .home {
+        padding: 4rem 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    .container {
+        margin-top: 2rem;
+    }
+
+    .movie {
+        width: 100%;
+        margin: 1rem;
+    }
 }

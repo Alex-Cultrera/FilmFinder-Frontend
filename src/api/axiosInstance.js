@@ -27,6 +27,7 @@ axiosInstance.interceptors.response.use(
             // Only redirect for protected paths
             const requestPath = error.config.url;
             if (protectedPaths.some(path => requestPath.includes(path))) {
+                alert('Please log in to access this feature');
                 window.location.href = '/login';
             }
         }

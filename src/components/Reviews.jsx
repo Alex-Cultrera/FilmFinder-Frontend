@@ -5,41 +5,15 @@ import MovieReview from './MovieReview';
 import SessionStatus from "./SessionStatus";
 import '../styles/Reviews.css';
 import axios from '../api/axiosInstance';
+import useCurrentUser from '../hooks/useCurrentUser';
 
 const Reviews = ({ onEdit, onDelete }) => {
-    const [isAdmin, setIsAdmin] = useState(false);
+    const { currentUser, isAdmin } = useCurrentUser();
     const [reviews, setReviews] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [currentUser, setCurrentUser] = useState(null);
 
-    // Get current user from localStorage
-    useEffect(() => {
-        const getCurrentUser = () => {
-            const first_name = localStorage.getItem('first_name');
-            const profile_photo_url = localStorage.getItem('profile_photo_url');
-            const user_email = localStorage.getItem('user_email');
-            const user_id = localStorage.getItem('user_id');
-            const role = localStorage.getItem('role'); // Add this if you store user role
-
-            if (first_name && user_id) {
-                return {
-                    user_id: user_id,
-                    first_name: first_name,
-                    email: user_email,
-                    profilePhoto: profile_photo_url,
-                    role: role // Add this if you store user role
-                };
-            }
-            return null;
-        };
-
-        const user = getCurrentUser();
-        setCurrentUser(user);
-        setIsAdmin(user?.role === 'ADMIN');
-    }, []);
-
-
+    // Fetch reviews
     const fetchReviews = async () => {
         try {
             setLoading(true);
@@ -95,11 +69,19 @@ const Reviews = ({ onEdit, onDelete }) => {
 
     if (!currentUser) {
         return (
-            <div className="reviews-container">
-                <div className="reviews-header">
-                    <h2>My Reviews</h2>
+            <div>   
+                <div className="nav-container">
+                    <span className="nav">
+                        <NavBar/>
+                        <SessionStatus/>
+                </span>
                 </div>
-                <p>Please log in to view your reviews.</p>
+                <div className="reviews-container">
+                    <h2>Reviews</h2>
+                    <div className="movie-list">
+                        <p>Please log in to view your reviews.</p>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -111,7 +93,7 @@ const Reviews = ({ onEdit, onDelete }) => {
                     <NavBar/>
                     <SessionStatus/>
                 </span>
-                <h2>{isAdmin ? 'All User Reviews' : 'My Reviews'}</h2>
+                <h2>{isAdmin ? 'All User Reviews' : 'Reviews'}</h2>
             </div>
     
             <div className="reviews-container">
