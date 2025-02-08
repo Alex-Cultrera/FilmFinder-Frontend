@@ -5,12 +5,16 @@ export const usePassword = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handlePasswordChange = (e) => {
-        setPassword(e.target.value);
+    const handlePasswordChange = (value) => {
+        // Accept either event object or direct value
+        const newValue = typeof value === 'object' ? value.target.value : value;
+        setPassword(newValue);
     };
 
-    const handleConfirmPasswordChange = (e) => {
-        setConfirmPassword(e.target.value);
+    const handleConfirmPasswordChange = (value) => {
+        // Accept either event object or direct value
+        const newValue = typeof value === 'object' ? value.target.value : value;
+        setConfirmPassword(newValue);
     };
 
     const validatePasswords = () => {
@@ -22,6 +26,12 @@ export const usePassword = () => {
         return true;
     };
 
+    const clearPasswords = () => {
+        setPassword('');
+        setConfirmPassword('');
+        setError('');
+    };
+
     return {
         password,
         confirmPassword,
@@ -30,5 +40,6 @@ export const usePassword = () => {
         handlePasswordChange,
         handleConfirmPasswordChange,
         validatePasswords,
+        clearPasswords
     };
 };
