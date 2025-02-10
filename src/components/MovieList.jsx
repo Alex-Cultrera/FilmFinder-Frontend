@@ -51,7 +51,7 @@ const MovieList = ({ movies, showQueued = true, showWatched = true, showFavorite
 
     return (
         <div className="container">
-            {movies.map((movie) => {
+            {movies.map((movie, index) => {
                 const isRecommended = recommended.some(r => r.imdbID === movie.imdbID);
                 const isQueued = queued.some(w => w.imdbID === movie.imdbID);
                 const isWatched = watched.some(w => w.imdbID === movie.imdbID);
@@ -59,7 +59,7 @@ const MovieList = ({ movies, showQueued = true, showWatched = true, showFavorite
                 
                 return (
                     <MovieCard
-                        key={movie.imdbID}
+                        key={`${movie.imdbID}-${index}`}
                         movie={movie}
                         onToggleRecommended={showRecommended ? handleRecommendedToggle : undefined}
                         onToggleQueued={showQueued ? handleQueuedToggle : undefined}

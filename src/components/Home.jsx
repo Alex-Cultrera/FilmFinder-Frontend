@@ -42,13 +42,14 @@ const Home = () => {
         setLocalWatched(watchedIds);
         const favoriteIds = new Set(favorites.map(f => f.imdbID));
         setLocalFavorites(favoriteIds);
-    }, [queued, watched, favorites]);
+    }, [recommended, queued, watched, favorites]);
 
     const handleSearch = async (val) => {
         await searchMovies(val, 1)
     }
 
     const searchMovies = async (title, pageNumber) => {
+        
         setLoading(true);
         try {
             const response = await a.get(`${OMDB_API_URL}&s=${title}&page=${pageNumber}`);
@@ -65,23 +66,6 @@ const Home = () => {
         }
     };
     
-    // const getAllRecentMovies = async (title, year, pageNumber) => {
-    //     setLoading(true);
-    //     try {
-    //         const response = await a.get(`${OMDB_API_URL}&s=${title}&y=${year}&page=${pageNumber}`);
-    //         const data = response.data;
-    //         if (data && data.Search) {
-    //             setMovies(prevMovies => [...prevMovies, ...data.Search]);
-    //             setTotalResults(data.totalResults);
-    //         }
-    //     } catch (error) {
-    //         console.error('Search error:', error);
-    //         // Optionally set an error state here to show to the user
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
-
     useEffect(() => {
         if (searchTerm) {
             setMovies([]); // Clear previous results
@@ -89,9 +73,9 @@ const Home = () => {
             searchMovies(searchTerm, 1);
         } 
         else {
-            searchMovies('Day', 1);
+            setMovies(recommended);
         }
-    }, [searchTerm]);
+    }, [searchTerm, recommended]);
 
     // Infinite scroll logic
     const handleScroll = () => {
