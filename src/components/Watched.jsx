@@ -47,6 +47,7 @@ const Watched = () => {
                     {watched.length > 0 ? (
                         <MovieList 
                             movies={watched} 
+                            showQueued={true}
                             showWatched={true} 
                             showFavorites={true}
                         />

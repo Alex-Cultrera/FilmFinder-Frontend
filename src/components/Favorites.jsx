@@ -46,6 +46,7 @@ const Favorites = () => {
                     {favorites.length > 0 ? (
                         <MovieList 
                             movies={favorites} 
+                            showQueued={true}
                             showWatched={true} 
                             showFavorites={true}
                         />

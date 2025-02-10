@@ -1,10 +1,17 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faEye, faCirclePlus } from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faEye, faCirclePlus, faHouse } from '@fortawesome/free-solid-svg-icons';
+import useCurrentUser from '../hooks/useCurrentUser';
 
-const MovieCard = ({movie, onToggleQueued, isQueued, onToggleWatched, isWatched, onToggleFavorite, isFavorited}) => {
-    
+const MovieCard = ({movie, onToggleRecommended, isRecommended, onToggleQueued, isQueued, onToggleWatched, isWatched, onToggleFavorite, isFavorited}) => {
+    const { currentUser, isAdmin } = useCurrentUser();
+
+    const handleRecommendedClick = (e) => {
+        e.stopPropagation();
+        onToggleRecommended(movie);
+    };
+
     const handleQueuedClick = (e) => {
         e.stopPropagation();
         onToggleQueued(movie);
@@ -46,6 +53,17 @@ const MovieCard = ({movie, onToggleQueued, isQueued, onToggleWatched, isWatched,
             </Link>
             {isHovered && (
                 <div className="icon-container">
+                    {isAdmin && (
+                        <div
+                            className="home-icon-container"
+                            onClick={() => onToggleRecommended(movie)}
+                        >
+                            <FontAwesomeIcon
+                                icon={faHouse}
+                                className={`home-icon ${isRecommended ? 'recommended' : ''}`}
+                            />
+                        </div>
+                    )}
                     <div
                         className="queue-icon-container"
                         onClick={() => onToggleQueued(movie)}

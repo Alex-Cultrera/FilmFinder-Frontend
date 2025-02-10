@@ -6,6 +6,7 @@ import {SearchBox} from "./SearchBox";
 import Movies from "./Movies.jsx";
 import NavBar from "./NavBar";
 import SessionStatus from "./SessionStatus";
+import useRecommended from '../hooks/useRecommended';
 import useQueued from '../hooks/useQueued';
 import useWatched from '../hooks/useWatched';
 import useFavorites from '../hooks/useFavorites';
@@ -22,15 +23,19 @@ const Home = () => {
     const [page, setPage] = useState(1);
     const [loading, setLoading] = useState(false);
     const [totalResults, setTotalResults] = useState(0);
+    const {recommended, addToRecommended, removeFromRecommended, loading: recommendedLoading, error: recommendedError } = useRecommended();
     const {queued, addToQueued, removeFromQueued} = useQueued();
     const {watched, addToWatched, removeFromWatched} = useWatched();
     const {favorites, addToFavorites, removeFromFavorites} = useFavorites();
+    const [localRecommended, setLocalRecommended] = useState(new Set());
     const [localQueued, setLocalQueued] = useState(new Set());
     const [localWatched, setLocalWatched] = useState(new Set());
     const [localFavorites, setLocalFavorites] = useState(new Set());
 
     // Sync localQueued, localWatched, and localFavorites, with queued, watched, and favorites from hooks
     useEffect(() => {
+        const recommendedIds = new Set(recommended.map(r => r.imdbID));
+        setLocalRecommended(recommendedIds);
         const queuedIds = new Set(queued.map(w => w.imdbID));
         setLocalQueued(queuedIds);
         const watchedIds = new Set(watched.map(w => w.imdbID));
@@ -60,22 +65,22 @@ const Home = () => {
         }
     };
     
-    const getAllRecentMovies = async (title, year, pageNumber) => {
-        setLoading(true);
-        try {
-            const response = await a.get(`${OMDB_API_URL}&s=${title}&y=${year}&page=${pageNumber}`);
-            const data = response.data;
-            if (data && data.Search) {
-                setMovies(prevMovies => [...prevMovies, ...data.Search]);
-                setTotalResults(data.totalResults);
-            }
-        } catch (error) {
-            console.error('Search error:', error);
-            // Optionally set an error state here to show to the user
-        } finally {
-            setLoading(false);
-        }
-    };
+    // const getAllRecentMovies = async (title, year, pageNumber) => {
+    //     setLoading(true);
+    //     try {
+    //         const response = await a.get(`${OMDB_API_URL}&s=${title}&y=${year}&page=${pageNumber}`);
+    //         const data = response.data;
+    //         if (data && data.Search) {
+    //             setMovies(prevMovies => [...prevMovies, ...data.Search]);
+    //             setTotalResults(data.totalResults);
+    //         }
+    //     } catch (error) {
+    //         console.error('Search error:', error);
+    //         // Optionally set an error state here to show to the user
+    //     } finally {
+    //         setLoading(false);
+    //     }
+    // };
 
     useEffect(() => {
         if (searchTerm) {

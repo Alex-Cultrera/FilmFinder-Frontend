@@ -186,6 +186,11 @@ h1 {
     justify-content: right;
 }
 
+.queue-icon-container {
+    margin-left: 10px;
+    opacity: 1;
+}
+
 .watch-icon-container {
     margin-left: 10px;
     opacity: 1;
@@ -196,6 +201,7 @@ h1 {
     opacity: 1;
 }
 
+.home-icon,
 .queue-icon,
 .watch-icon,
 .heart-icon {
@@ -203,18 +209,21 @@ h1 {
     color: white;
 }
 
+.movie:hover .home-icon-container:hover .home-icon,
 .movie:hover .queue-icon-container:hover .queue-icon,
 .movie:hover .watch-icon-container:hover .watch-icon,
 .movie:hover .heart-icon-container:hover .heart-icon {
     transform: scale(1.2);
 }
 
+.home-icon.recommended,
 .queue-icon.queued,
 .watch-icon.watched,
 .heart-icon.favorited {
     color: #FFCB9A;
 }
 
+.home-icon-container:active .home-icon,
 .queue-icon-container:active .queue-icon,
 .watch-icon-container:active .watch-icon,
 .heart-icon-container:active .heart-icon {
