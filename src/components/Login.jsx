@@ -38,11 +38,12 @@ function Login() {
 
             console.log(response);
             if (response.data) {
-                const { userId, firstName, photo } = response.data;
+                const { userId, firstName, photo, role } = response.data;
                 localStorage.setItem('user_id', userId);
                 localStorage.setItem('first_name', firstName);
                 localStorage.setItem('user_email', email);
                 localStorage.setItem('profile_photo_url', photo);
+                localStorage.setItem('role', role);
                 navigate('/dashboard');
             }
         } catch (error) {

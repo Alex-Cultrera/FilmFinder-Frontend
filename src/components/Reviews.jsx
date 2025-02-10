@@ -98,6 +98,11 @@ const Reviews = ({ onEdit, onDelete }) => {
     
             <div className="reviews-container">
 
+                {isAdmin && (
+                    <div className="admin-stats">
+                        <p>Total Reviews: {reviews.length}</p>
+                    </div>
+                )}
                 {loading ? (
                     <p>Loading reviews...</p>
                 ) : error ? (
@@ -118,12 +123,6 @@ const Reviews = ({ onEdit, onDelete }) => {
                                 isCurrentUser={isAdmin || Number(currentUser?.user_id) === review.userId}
                             />
                         ))}
-                    </div>
-                )}
-
-                {isAdmin && (
-                    <div className="admin-stats">
-                        <p>Total Reviews: {reviews.length}</p>
                     </div>
                 )}
             </div>

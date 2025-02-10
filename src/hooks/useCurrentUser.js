@@ -26,7 +26,7 @@ const useCurrentUser = () => {
 
         const user = getCurrentUser();
         setCurrentUser(user);
-        setIsAdmin(user?.role === 'ADMIN');
+        setIsAdmin(user?.role === 'ROLE_ADMIN');
     }, []);
 
     return { currentUser, isAdmin };
