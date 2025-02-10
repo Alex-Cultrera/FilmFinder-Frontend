@@ -36,12 +36,15 @@ const ContinueWithGoogle = () => {
                         userEmail,
                         userPhoto,
                     });
-                    const { access_jwt, user_id, first_name } = response.data
+
+                    console.log('Backend response:', response.data);
+                    // const { userId, firstName, photo, role } = response.data;
                     if (response.data) {
-                        localStorage.setItem('access_token', access_jwt);
-                        localStorage.setItem('user_id', user_id);
+                        localStorage.setItem('user_id', response.data.userId);
+                        localStorage.setItem('first_name', response.data.firstName);
                         localStorage.setItem('user_email', userEmail);
-                        localStorage.setItem('first_name', first_name);
+                        localStorage.setItem('profile_photo_url', response.data.photo);
+                        localStorage.setItem('role', response.data.role);
                         setLoading(false);
                         navigate('/dashboard');
                     }
@@ -97,3 +100,4 @@ const ContinueWithGoogle = () => {
     );
 };
 export default ContinueWithGoogle;
+
