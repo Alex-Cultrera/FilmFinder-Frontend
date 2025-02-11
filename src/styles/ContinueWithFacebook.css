@@ -1,0 +1,37 @@
+.facebook-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #1877f2;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 300px;
+    margin: 10px auto;
+    transition: background-color 0.2s;
+}
+
+.facebook-btn:hover {
+    background-color: #166fe5;
+}
+
+.facebook-btn:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.facebook-btn-img {
+    width: 24px;
+    height: 24px;
+}
+
+.error-message {
+    color: #dc3545;
+    text-align: center;
+    margin: 10px 0;
+} 

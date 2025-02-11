@@ -5,7 +5,7 @@ import { faHeart, faEye, faCirclePlus, faHouse } from '@fortawesome/free-solid-s
 import useCurrentUser from '../hooks/useCurrentUser';
 
 const MovieCard = ({movie, onToggleRecommended, isRecommended, onToggleQueued, isQueued, onToggleWatched, isWatched, onToggleFavorite, isFavorited}) => {
-    const { currentUser, isAdmin } = useCurrentUser();
+    const { isAdmin } = useCurrentUser();
 
     const handleRecommendedClick = (e) => {
         e.stopPropagation();

@@ -18,7 +18,7 @@ const ContinueWithGoogle = () => {
             try {
                 console.log('Token response:', tokenResponse);
 
-                const googleApiUrl = 'https://www.googleapis.com/oauth2/v3/userinfo';
+                const googleApiUrl = process.env.REACT_APP_GOOGLE_API_URL;
 
                 const userInfo = await a.get(googleApiUrl, {
                     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
@@ -38,7 +38,7 @@ const ContinueWithGoogle = () => {
                     });
 
                     console.log('Backend response:', response.data);
-                    // const { userId, firstName, photo, role } = response.data;
+
                     if (response.data) {
                         localStorage.setItem('user_id', response.data.userId);
                         localStorage.setItem('first_name', response.data.firstName);

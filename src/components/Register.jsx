@@ -42,7 +42,6 @@ function Register() {
 
     const handleFacebookLogin = () => {
         // alert('Continue with Facebook');
-        // Add actual Facebook login logic here
     };
 
 

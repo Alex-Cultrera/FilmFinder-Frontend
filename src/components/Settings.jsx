@@ -24,7 +24,7 @@ const Settings = () => {
     const [previewUrl, setPreviewUrl] = useState(null);
     const [selectedFile, setSelectedFile] = useState(null);
 
-    // Only declare the states we need
+    // declare only the needed states
     const [newPassword, setNewPassword] = useState('');
     const [passwordStatus, setPasswordStatus] = useState({
         loading: false,
@@ -75,10 +75,9 @@ const Settings = () => {
         try {
             setPasswordStatus({ loading: true, success: false, error: null });
             
-            // Get the JWT token from localStorage
             const token = localStorage.getItem('token');
             
-            // Only send the new password
+            // send only the new password
             await axios.put('/user/password/update', 
                 {
                     newPassword: newPassword
@@ -158,7 +157,6 @@ const Settings = () => {
                         </div>
                     </section>
 
-                    {/* Simplified Password section */}
                     <div className="settings-section">
                         <h3>Change Password</h3>
                         <form onSubmit={handlePasswordUpdate}>

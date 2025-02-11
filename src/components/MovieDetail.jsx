@@ -7,7 +7,9 @@ import '../styles/MovieDetail.css';
 import MovieReviews from './MovieReviews';
 import useCurrentUser from '../hooks/useCurrentUser';
 
-const API_URL = 'https://www.omdbapi.com/?apikey=872871fc';
+const OMDB_BASE_URL = process.env.REACT_APP_OMDB_BASE_URL || 'http://www.omdbapi.com';
+const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY;
+const API_URL = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}`;
 
 const MovieDetail = () => {
     const [movieDetails, setMovieDetails] = useState(null);

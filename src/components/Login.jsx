@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {Link, useNavigate} from "react-router-dom";
 // import axios from "/src/api/axiosInstance";
 import NavBar from "./NavBar";
 import '../styles/Login.css';
-import FacebookIcon from '../images/facebookIcon.svg';
+// import FacebookIcon from '../images/facebookIcon.svg';
 import ContinueWithGoogle from "./ContinueWithGoogle";
+// import ContinueWithFacebook from "./ContinueWithFacebook";
 import axios from "../api/axiosInstance";
 
 function Login() {
@@ -15,7 +16,18 @@ function Login() {
     const navigate = useNavigate();
 
     const handleEmailChange = (e) => {
-        setEmail(e.target.value);
+        const newEmail = e.target.value;
+        setEmail(newEmail);
+
+        // Clear any existing error when user starts typing
+        if (error) setError('');
+                
+        // Check if it's a Gmail address
+        if (newEmail.toLowerCase().endsWith('@gmail.com')) {
+            setError('Please use the "Continue with Google" button below for Gmail accounts.');
+            return;
+        }
+
         setError(null);
     };
     const handlePasswordChange = (e) => {
@@ -25,6 +37,13 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Prevent form submission for Gmail addresses
+        if (email.toLowerCase().endsWith('@gmail.com')) {
+            setError('Please use the "Continue with Google" button below for Gmail accounts.');
+            return;
+        }
+
         setLoading(true);
         setError(null);
 
@@ -54,10 +73,9 @@ function Login() {
         }
     };
 
-    const handleFacebookLogin = () => {
-        // alert('Continue with Facebook');
-        // Add actual Facebook login logic here
-    };
+    // const handleFacebookLogin = () => {
+    //     // alert('Continue with Facebook');
+    // };
 
     const isFormValid = email && password && !loading;
 
@@ -114,8 +132,9 @@ function Login() {
                 <div className="social-login">
 
                     <ContinueWithGoogle/>
+                    {/* <ContinueWithFacebook/> */}
 
-                    <button onClick={handleFacebookLogin} className="btn facebook-btn">
+                    {/* <button onClick={handleFacebookLogin} className="btn facebook-btn">
                         <img
                             src={FacebookIcon}
                             alt="Facebook"
@@ -123,7 +142,7 @@ function Login() {
                         <span>
                             Continue with Facebook
                         </span>
-                    </button>
+                    </button> */}
                 </div>
 
             </div>

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Navigate, Route, BrowserRouter as Router, Routes} from "react-router-dom";
+import {Route, BrowserRouter as Router, Routes} from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import PasswordPage from "./components/PasswordPage";
@@ -11,8 +11,6 @@ import Favorites from "./components/Favorites";
 import Watched from "./components/Watched";
 import Reviews from "./components/Reviews";
 import MovieDetail from "./components/MovieDetail";
-import axios from "./api/axiosInstance";
-import {jwtDecode} from "jwt-decode";
 
 function App () {
 

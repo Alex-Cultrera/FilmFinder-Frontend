@@ -11,10 +11,8 @@ import useQueued from '../hooks/useQueued';
 import useWatched from '../hooks/useWatched';
 import useFavorites from '../hooks/useFavorites';
 
-
-// Add fallback values
 const OMDB_BASE_URL = process.env.REACT_APP_OMDB_BASE_URL || 'http://www.omdbapi.com';
-const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY || '872871fc';
+const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY;
 const OMDB_API_URL = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}`;
 
 const Home = () => {
@@ -32,7 +30,8 @@ const Home = () => {
     const [localWatched, setLocalWatched] = useState(new Set());
     const [localFavorites, setLocalFavorites] = useState(new Set());
 
-    // Sync localQueued, localWatched, and localFavorites, with queued, watched, and favorites from hooks
+    // Sync localRecommended, localQueued, localWatched, and localFavorites, 
+    //                  with recommended, queued, watched, and favorites from hooks
     useEffect(() => {
         const recommendedIds = new Set(recommended.map(r => r.imdbID));
         setLocalRecommended(recommendedIds);
@@ -60,7 +59,6 @@ const Home = () => {
             }
         } catch (error) {
             console.error('Search error:', error);
-            // Optionally set an error state here to show to the user
         } finally {
             setLoading(false);
         }
@@ -90,7 +88,7 @@ const Home = () => {
     useEffect(() => {
         window.addEventListener('scroll', handleScroll);
         return () => window.removeEventListener('scroll', handleScroll);
-    }, [loading, searchTerm]);
+    }, [loading, searchTerm, handleScroll]);
 
 
     const handleToggleQueued = async (movie) => {
