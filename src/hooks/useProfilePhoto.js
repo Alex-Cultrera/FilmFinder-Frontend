@@ -25,8 +25,7 @@ export const useProfilePhoto = () => {
             }
 
             // 2. Upload to S3
-            const userId = localStorage.getItem('user_id');
-            const photoUrl = await uploadPhoto(file, userId);
+            const photoUrl = await uploadPhoto(file);
 
             // 3. Update backend with new URL
             await axios.post(`/user/uploadProfilePhoto`, {

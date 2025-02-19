@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import NavBar from "./NavBar";
-import a from 'axios';
+import axios from '../api/axiosInstance';
 import { useParams, useNavigate } from 'react-router-dom';
 import SessionStatus from "./SessionStatus";
 import '../styles/MovieDetail.css';
 import MovieReviews from './MovieReviews';
 import useCurrentUser from '../hooks/useCurrentUser';
-
-const OMDB_BASE_URL = process.env.REACT_APP_OMDB_BASE_URL || 'http://www.omdbapi.com';
-const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY;
-const API_URL = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}`;
 
 const MovieDetail = () => {
     const [movieDetails, setMovieDetails] = useState(null);
@@ -19,7 +15,7 @@ const MovieDetail = () => {
 
     useEffect(() => {
         const fetchMovieDetails = async () => {
-            const response = await a.get(`${API_URL}&i=${imdbID}`);
+            const response = await axios.get(`/omdb/api/search-by-id?id=${imdbID}`);
             setMovieDetails(response.data);
         };
 

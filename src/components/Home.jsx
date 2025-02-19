@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import '../styles/Home.css';
 import SearchIcon from '../images/search.svg';
-import a from "axios";
+import axios from "../api/axiosInstance";
 import {SearchBox} from "./SearchBox";
 import Movies from "./Movies.jsx";
 import NavBar from "./NavBar";
@@ -10,10 +10,6 @@ import useRecommended from '../hooks/useRecommended';
 import useQueued from '../hooks/useQueued';
 import useWatched from '../hooks/useWatched';
 import useFavorites from '../hooks/useFavorites';
-
-const OMDB_BASE_URL = process.env.REACT_APP_OMDB_BASE_URL || 'http://www.omdbapi.com';
-const OMDB_API_KEY = process.env.REACT_APP_OMDB_API_KEY;
-const OMDB_API_URL = `${OMDB_BASE_URL}/?apikey=${OMDB_API_KEY}`;
 
 const Home = () => {
     const [movies, setMovies] = useState([]);
@@ -48,13 +44,12 @@ const Home = () => {
     }
 
     const searchMovies = async (title, pageNumber) => {
-        
         setLoading(true);
         try {
-            const response = await a.get(`${OMDB_API_URL}&s=${title}&page=${pageNumber}`);
+            const response = await axios.get(`/omdb/api/search-by-title?title=${title}&page=${pageNumber}`);
             const data = response.data;
-            if (data && data.Search) {
-                setMovies(prevMovies => [...prevMovies, ...data.Search]);
+            if (data && data.movies) {
+                setMovies(prevMovies => [...prevMovies, ...data.movies]);
                 setTotalResults(data.totalResults);
             }
         } catch (error) {
