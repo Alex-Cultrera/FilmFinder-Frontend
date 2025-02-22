@@ -2,16 +2,10 @@ import axios from 'axios';
 
 // Create an instance of axios
 const axiosInstance = axios.create({
-    baseURL: process.env.REACT_APP_API_URL || 'filmfinder-backend-production.up.railway.app',
+    baseURL: process.env.REACT_APP_API_URL || 'https://filmfinder-backend-production.up.railway.app',
     withCredentials: true,
 });
 
-console.log('Environment:', process.env.NODE_ENV);
-console.log('API URL from env:', process.env.REACT_APP_API_URL);
-console.log('Full API config:', {
-    baseURL: process.env.REACT_APP_API_URL,
-    // any other config
-});
 
 // Paths that should redirect to login when unauthorized
 const protectedPaths = [
@@ -21,6 +15,7 @@ const protectedPaths = [
     '/removeWatched',
     '/addFavorite',
     '/removeFavorite',
+    // comment on dev branch
 ];
 
 // Attach a response interceptor

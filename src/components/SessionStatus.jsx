@@ -51,6 +51,7 @@ const SessionStatus = () => {
         localStorage.removeItem('first_name');
         localStorage.removeItem('user_email');
         localStorage.removeItem('profile_photo_url');
+        localStorage.removeItem('role');
         document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         setIsLoggedIn(false);
