@@ -12,12 +12,26 @@ import useQueued from '../hooks/useQueued';
 import useWatched from '../hooks/useWatched';
 import useRecommended from '../hooks/useRecommended';
 
-
 const MovieDetail = () => {
     const [movieDetails, setMovieDetails] = useState(null);
     const { imdbID } = useParams();
     const navigate = useNavigate();
     const { currentUser } = useCurrentUser();
+
+    const [isMobile, setIsMobile] = useState(false);
+
+    const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768); // Set your breakpoint here
+    };
+
+    useEffect(() => {
+        handleResize(); // Check on mount
+        window.addEventListener('resize', handleResize); // Add event listener
+
+        return () => {
+            window.removeEventListener('resize', handleResize); // Cleanup on unmount
+        };
+    }, []);
 
     const { recommended, addToRecommended, removeFromRecommended } = useRecommended();
     const { queued, addToQueued, removeFromQueued } = useQueued();

@@ -208,14 +208,24 @@ input[type="password"] {
 
 /* RESPONSIVE */
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
     .home {
         padding: 4rem 2rem;
+    }
+
+    .mobile-title {
+        align-self: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        margin-top: 1rem;
     }
 
     .search {
         padding: 1rem 1.75rem;
         width: 100%;
+        margin-top: 1rem;
     }
 
     .search input {
@@ -226,6 +236,16 @@ input[type="password"] {
         width: 20px;
         height: 20px;
     }
+
+    .movie .overlay {
+        position: absolute;
+        padding: 16px;
+        width: 100%;
+        opacity: 1;
+        top: 0;
+        color: #FFCB9A;
+    }
+    
 }
 
 @media screen and (max-width: 400px) {
@@ -245,4 +265,5 @@ input[type="password"] {
         width: 100%;
         margin: 1rem;
     }
+
 }

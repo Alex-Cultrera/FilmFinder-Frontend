@@ -86,7 +86,10 @@
 
     .dropdown-menu {
         display: none;
-        position: relative;
+        position: fixed;
+        z-index: 1000;
+        left: 20px;
+        top: 70px;
     }
 
     .dropdown-menu.open {
