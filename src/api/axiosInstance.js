@@ -15,7 +15,6 @@ const protectedPaths = [
     '/removeWatched',
     '/addFavorite',
     '/removeFavorite',
-    // comment on dev branch
 ];
 
 // Attach a response interceptor

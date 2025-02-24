@@ -1,41 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto+Slab:100,300,400,700");
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i");
 
-* {
-    margin: 0;
-    border: 0;
-    box-sizing: border-box;
-}
-
-
-
-:root {
-    --font-roboto: "Roboto Slab", serif;
-    --font-raleway: "Raleway", sans-serif;
-}
-
-body {
-    font-family: var(--font-roboto);
-    background-color: #404c45;
-}
-
-.home {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-left: 2%;
-    margin-right: 2%;
-    margin-top: 1%;
-}
-
-.password-container {
+.password-container, .settings-back-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -46,13 +10,13 @@ body {
 
 input[type="password"] {
     width: 100%;
-    display: flex;
+    /* display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; */
     border: none;
     border-radius: 5px;
     padding: 15px;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
 }
 
 .password-container button {
@@ -71,7 +35,7 @@ input[type="password"] {
     margin: 0 auto;
 }
 
-.photo-section {
+.photo-section, .password-section {
     background: white;
     padding: 20px;
     border-radius: 8px;
@@ -81,7 +45,6 @@ input[type="password"] {
 
 .photo-section h2 {
     margin-bottom: 20px;
-    color: #333;
 }
 
 .current-photo {
@@ -199,9 +162,9 @@ button:disabled {
     font-size: 14px;
 }
 
-.password-form button {
+.password-form button, .settings-back-btn {
     padding: 10px 20px;
-    background-color: #28a745;
+    background-color: #2C3531;
     color: white;
     border: none;
     border-radius: 4px;
@@ -210,11 +173,15 @@ button:disabled {
     transition: background-color 0.2s;
 }
 
-.password-form button:hover {
-    background-color: #218838;
+.settings-back-btn {
+    margin-top: 10px;
 }
 
-.password-form button:disabled {
+.password-form button:hover, .settings-back-btn:hover {
+    background-color: #D9B08C;
+}
+
+.password-form button:disabled, .settings-back-btn:disabled {
     background-color: #ccc;
     cursor: not-allowed;
 }

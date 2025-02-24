@@ -7,7 +7,7 @@
     flex-direction: column;
 }
 
-.login {
+.login, .back-btn {
     width: 100%;
     max-width: 400px;
     margin: 0 auto;
@@ -75,13 +75,17 @@ h4 {
     transition: all 0.3s ease;
 }
 
-.continue-btn {
+.continue-btn, .back-btn {
     background-color: #2C3531;
     color: white;
     text-align: center;
 }
 
-.continue-btn:hover {
+.back-btn {
+    margin-top: 15px;
+}
+
+.continue-btn:hover, .back-btn:hover {
     background-color: #D9B08C;
 }
 
@@ -137,25 +141,4 @@ h4 {
     margin-top: 20px;
 }
 
-
-
-.facebook-btn img {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    margin-right: 10px;
-}
-
-.facebook-btn {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-    background-color: #2C3531;
-    color: white;
-}
-
-.facebook-btn:hover {
-    background-color: #D9B08C;
-}
 

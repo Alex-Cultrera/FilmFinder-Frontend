@@ -1,32 +1,9 @@
 import React, {useState} from 'react';
 import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faEye, faCirclePlus, faHouse } from '@fortawesome/free-solid-svg-icons';
-import useCurrentUser from '../hooks/useCurrentUser';
-
-const MovieCard = ({movie, onToggleRecommended, isRecommended, onToggleQueued, isQueued, onToggleWatched, isWatched, onToggleFavorite, isFavorited}) => {
-    const { isAdmin } = useCurrentUser();
-
-    const handleRecommendedClick = (e) => {
-        e.stopPropagation();
-        onToggleRecommended(movie);
-    };
-
-    const handleQueuedClick = (e) => {
-        e.stopPropagation();
-        onToggleQueued(movie);
-    };
+import MovieIcons from './MovieIcons';
+import Placeholder from '../images/placeholder.png';
+const MovieCard = ({isAdmin, movie, onToggleRecommended, isRecommended, onToggleQueued, isQueued, onToggleWatched, isWatched, onToggleFavorite, isFavorited}) => {
     
-    const handleWatchedClick = (e) => {
-        e.stopPropagation();
-        onToggleWatched(movie);
-    };
-    
-    const handleFavoriteClick = (e) => {
-        e.stopPropagation();
-        onToggleFavorite(movie);
-    };
-
     const [isHovered, setIsHovered] = useState(false);
 
     const handleMouseEnter = () => setIsHovered(true);
@@ -43,8 +20,11 @@ const MovieCard = ({movie, onToggleRecommended, isRecommended, onToggleQueued, i
                     <p>{movie.Year}</p>
                 </div>
                 <div className='poster'>
-                    <img src={movie.Poster !== 'N/A' ? movie.Poster : 'https://via.placeholder.com/400'}
-                         alt={movie.Title}/>
+                    {movie.Poster !== 'N/A' ? (
+                        <img src={movie.Poster} alt={movie.Title} />
+                    ) : (
+                        <img src={Placeholder} alt="Placeholder" />
+                    )}
                 </div>
                 <div className='label'>
                     <span>{movie.Type}</span>
@@ -52,46 +32,18 @@ const MovieCard = ({movie, onToggleRecommended, isRecommended, onToggleQueued, i
                 </div>
             </Link>
             {isHovered && (
-                <div className="icon-container">
-                    {isAdmin && (
-                        <div
-                            className="home-icon-container"
-                            onClick={() => onToggleRecommended(movie)}
-                        >
-                            <FontAwesomeIcon
-                                icon={faHouse}
-                                className={`home-icon ${isRecommended ? 'recommended' : ''}`}
-                            />
-                        </div>
-                    )}
-                    <div
-                        className="queue-icon-container"
-                        onClick={() => onToggleQueued(movie)}
-                    >
-                        <FontAwesomeIcon
-                            icon={faCirclePlus}
-                            className={`queue-icon ${isQueued ? 'queued' : ''}`}
-                        />
-                    </div>
-                    <div
-                        className="watch-icon-container"
-                        onClick={() => onToggleWatched(movie)}
-                    >
-                        <FontAwesomeIcon
-                            icon={faEye}
-                            className={`watch-icon ${isWatched ? 'watched' : ''}`}
-                        />
-                    </div>
-                    <div
-                        className="heart-icon-container"
-                        onClick={handleFavoriteClick}
-                    >
-                        <FontAwesomeIcon
-                            icon={faHeart}
-                            className={`heart-icon ${isFavorited ? 'favorited' : ''}`}
-                        />
-                    </div>
-                </div>
+                <MovieIcons 
+                    isAdmin={isAdmin}
+                    movie={movie}
+                    isRecommended={isRecommended}
+                    isQueued={isQueued}
+                    isWatched={isWatched}
+                    isFavorited={isFavorited}
+                    onToggleRecommended={onToggleRecommended}
+                    onToggleQueued={onToggleQueued}
+                    onToggleWatched={onToggleWatched}
+                    onToggleFavorite={onToggleFavorite}
+                />
             )}
         </div>
     );

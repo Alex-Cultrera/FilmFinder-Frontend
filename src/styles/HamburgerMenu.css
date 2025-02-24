@@ -74,3 +74,26 @@
     background-color: #444;
     padding-left: 10px;
 }
+
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+    .hamburger-icon {
+        margin-top: 3rem;
+        margin-left: 1rem;
+    }
+
+    .dropdown-menu {
+        display: none;
+        position: relative;
+    }
+
+    .dropdown-menu.open {
+        display: flex;
+        z-index: 1000;
+    }
+
+    
+}
+

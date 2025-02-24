@@ -4,6 +4,7 @@ export const usePassword = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
+    const MIN_PASSWORD_LENGTH = 8;
 
     const handlePasswordChange = (value) => {
         // Accept either event object or direct value
@@ -18,6 +19,10 @@ export const usePassword = () => {
     };
 
     const validatePasswords = () => {
+        if (password.length < MIN_PASSWORD_LENGTH) {
+            setError(`Password must be at least ${MIN_PASSWORD_LENGTH} characters long.`);
+            return false;
+        }
         if (password !== confirmPassword) {
             setError('Passwords do not match.');
             return false;

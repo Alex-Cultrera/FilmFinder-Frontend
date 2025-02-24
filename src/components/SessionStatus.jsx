@@ -85,6 +85,9 @@ const SessionStatus = () => {
         <div className="SessionStatus">
             {isLoggedIn ? (
                 <div className="hello">
+                    <span onClick={toggleDropdown}>
+                        Hello, {firstName || "Loading..."}
+                    </span>
                     <span className="profile-icon">
                         <img
                             src={profilePhotoUrl}
@@ -96,10 +99,12 @@ const SessionStatus = () => {
                             onError={handleImageError}
                         />
                     </span>
-                    <span>Hello, {firstName || "Loading..."}</span>
                 </div>
             ) : (
                 <div className="guest">
+                    <span onClick={toggleDropdown}>
+                        LOGIN
+                    </span>
                     <span className="profile-icon">
                         <img
                             src={DEFAULT_PHOTO}
@@ -109,7 +114,6 @@ const SessionStatus = () => {
                             ref={photoRef}
                         />
                     </span>
-                    <span>Welcome, Guest</span>
                 </div>
             )}
 
