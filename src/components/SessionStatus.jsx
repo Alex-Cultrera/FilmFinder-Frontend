@@ -4,6 +4,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {googleLogout} from "@react-oauth/google";
 import { useProfilePhoto } from '../hooks/useProfilePhoto';
 import DEFAULT_PHOTO from '../utils/defaultAvatar';
+import axios from '../api/axiosInstance';
 
 const SessionStatus = () => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -45,16 +46,23 @@ const SessionStatus = () => {
         setProfilePhotoUrl(DEFAULT_PHOTO);
     };
 
-    const handleLogout = () => {
-        googleLogout()
-        localStorage.removeItem('user_id');
-        localStorage.removeItem('first_name');
-        localStorage.removeItem('user_email');
-        localStorage.removeItem('profile_photo_url');
-        document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-        document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
-        setIsLoggedIn(false);
-        navigate('/login');
+    const handleLogout = async () => {
+        try {
+            await axios.post('/api/auth/logout');
+            googleLogout()
+            localStorage.clear();
+            // localStorage.removeItem('user_id');
+            // localStorage.removeItem('first_name');
+            // localStorage.removeItem('user_email');
+            // localStorage.removeItem('profile_photo_url');
+            // localStorage.removeItem('role');
+            // document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            // document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+            setIsLoggedIn(false);
+            navigate('/login');
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
     };
 
     const toggleDropdown = () => {
@@ -84,6 +92,9 @@ const SessionStatus = () => {
         <div className="SessionStatus">
             {isLoggedIn ? (
                 <div className="hello">
+                    <span onClick={toggleDropdown}>
+                        Hello, {firstName || "Loading..."}
+                    </span>
                     <span className="profile-icon">
                         <img
                             src={profilePhotoUrl}
@@ -95,10 +106,12 @@ const SessionStatus = () => {
                             onError={handleImageError}
                         />
                     </span>
-                    <span>Hello, {firstName || "Loading..."}</span>
                 </div>
             ) : (
                 <div className="guest">
+                    <span onClick={toggleDropdown}>
+                        LOGIN
+                    </span>
                     <span className="profile-icon">
                         <img
                             src={DEFAULT_PHOTO}
@@ -108,7 +121,6 @@ const SessionStatus = () => {
                             ref={photoRef}
                         />
                     </span>
-                    <span>Welcome, Guest</span>
                 </div>
             )}
 

@@ -142,3 +142,12 @@
 .delete-button:hover {
     background-color: #ffebee;
 }
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+    .movie-reviews {
+        margin-top: 2rem;
+    }
+    
+}

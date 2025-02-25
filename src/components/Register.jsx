@@ -40,11 +40,6 @@ function Register() {
     };
 
 
-    const handleFacebookLogin = () => {
-        // alert('Continue with Facebook');
-    };
-
-
     return (
         <div>
             <span className="nav">
@@ -82,17 +77,7 @@ function Register() {
 
                 <div className="social-login">
                     <ContinueWithGoogle/>
-                    <button onClick={handleFacebookLogin} className="btn facebook-btn">
-                        <img
-                            src={FacebookIcon}
-                            alt="Facebook"
-                        />
-                    <span>
-                        Continue with Facebook
-                    </span>
-                    </button>
                 </div>
-
             </div>
         </div>
         );

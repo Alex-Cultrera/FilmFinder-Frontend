@@ -9,10 +9,8 @@
 .movie-detail img {
     width: 100%;
     max-width: 400px;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     margin-top: 1.5rem;
-    margin-left: 1.5rem;
-    margin-right: 4.5rem;
     width: 310px;
     height: 460px;
     position: relative;
@@ -20,9 +18,18 @@
     border: none;
 }
 
+.about-container .icon-container {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    position: relative;
+}
+
 .details {
     display: flex;
     align-items: center;
+    gap: 1.5rem;
     text-align: left;
 }
 
@@ -46,4 +53,27 @@
     border-radius: 12px;
     padding: 1rem;
     color: #444;
+}
+
+/* RESPONSIVE */
+
+@media screen and (max-width: 768px) {
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: left;
+    }
+
+    .movie-detail img {
+        width: 100%;
+        max-width: 400px;
+        margin-bottom: 15px;
+        width: 310px;
+        height: 460px;
+        position: relative;
+        border-radius: 12px;
+        border: none;
+    }
+    
 }

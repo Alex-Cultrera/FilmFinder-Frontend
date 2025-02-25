@@ -92,6 +92,7 @@ const PasswordPage = () => {
                         {loading ? 'Registering...' : 'Register'}
                     </button>
                 </form>
+                <button className="btn back-btn" onClick={() => navigate(-1)}>Back</button>
             </div>
         </div>
     );

@@ -1,16 +1,22 @@
 import React, { useState } from 'react';
 import { usePassword } from '../hooks/usePassword';
 import { useProfilePhoto } from '../hooks/useProfilePhoto';
+import { useNavigate, useLocation } from 'react-router-dom';
 import NavBar from "./NavBar";
 import axios from "../api/axiosInstance";
 import SessionStatus from "./SessionStatus";
 import '../styles/Settings.css';
 
 const Settings = () => {
+    const navigate = useNavigate();
     const {
+        password,
         confirmPassword,
+        handlePasswordChange,
         handleConfirmPasswordChange,
-        clearPasswords
+        clearPasswords,
+        validatePasswords,
+        error: passwordError
     } = usePassword();
 
     const { 
@@ -25,7 +31,6 @@ const Settings = () => {
     const [selectedFile, setSelectedFile] = useState(null);
 
     // declare only the needed states
-    const [newPassword, setNewPassword] = useState('');
     const [passwordStatus, setPasswordStatus] = useState({
         loading: false,
         success: false,
@@ -63,11 +68,11 @@ const Settings = () => {
         e.preventDefault();
         
         // Validate passwords match
-        if (newPassword !== confirmPassword) {
+        if (!validatePasswords()) {
             setPasswordStatus({
                 loading: false,
                 success: false,
-                error: 'New passwords do not match'
+                error: passwordError
             });
             return;
         }
@@ -80,7 +85,7 @@ const Settings = () => {
             // send only the new password
             await axios.put('/user/password/update', 
                 {
-                    newPassword: newPassword
+                    newPassword: password
                 },
                 {
                     headers: {
@@ -96,7 +101,6 @@ const Settings = () => {
             });
 
             // Clear password fields
-            setNewPassword('');
             clearPasswords();
 
             // Show success message and refresh after 2 seconds
@@ -157,15 +161,15 @@ const Settings = () => {
                         </div>
                     </section>
 
-                    <div className="settings-section">
-                        <h3>Change Password</h3>
-                        <form onSubmit={handlePasswordUpdate}>
+                    <div className="password-section">
+                        <h2>Change Password</h2>
+                        <form onSubmit={handlePasswordUpdate} className="password-form">
                             <div className="form-group">
                                 <label>New Password:</label>
                                 <input
                                     type="password"
-                                    value={newPassword}
-                                    onChange={(e) => setNewPassword(e.target.value)}
+                                    value={password}
+                                    onChange={(e) => handlePasswordChange(e.target.value)}
                                     required
                                     placeholder="Enter new password"
                                 />
@@ -182,9 +186,9 @@ const Settings = () => {
                             </div>
 
                             {/* Status Messages */}
-                            {passwordStatus.error && (
+                            {(passwordStatus.error || passwordError) && (
                                 <div className="error-message">
-                                    {passwordStatus.error}
+                                    {passwordStatus.error || passwordError}
                                 </div>
                             )}
                             {passwordStatus.success && (
@@ -202,6 +206,7 @@ const Settings = () => {
                             </button>
                         </form>
                     </div>
+                    <button className="settings-back-btn" onClick={() => navigate(-1)}>Back</button>
                 </div>
             </div>
         </div>

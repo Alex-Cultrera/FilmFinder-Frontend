@@ -9,12 +9,14 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .guest {
     display: flex;
     align-items: center;
     gap: 10px;
+    cursor: pointer;
 }
 
 .profile-icon {
@@ -34,7 +36,6 @@
 }
 
 .dropdown {
-    /*display: none;*/
     position: absolute;
     top: 60px;
     right: 10px;
