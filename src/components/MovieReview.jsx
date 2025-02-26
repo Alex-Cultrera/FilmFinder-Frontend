@@ -79,6 +79,7 @@ const MovieReview = ({ review, onEdit, onDelete, isCurrentUser }) => {
                 <div className="review-actions">
                     <button onClick={() => setIsEditing(true)}>Edit</button>
                     <button onClick={() => onDelete(review.reviewId)}>Delete</button>
+                    <button onClick={() => window.open(`/movie/${review.movieId}`, '_blank')}> View Movie </button>
                 </div>
             )}
         </div>
