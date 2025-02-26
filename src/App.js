@@ -11,6 +11,7 @@ import Favorites from "./components/Favorites";
 import Watched from "./components/Watched";
 import Reviews from "./components/Reviews";
 import MovieDetail from "./components/MovieDetail";
+import Privacy from "./components/Privacy";
 
 function App () {
 
@@ -28,6 +29,7 @@ function App () {
                 <Route path="/watched" element={<Watched/>}/>
                 <Route path="/favorites" element={<Favorites/>}/>
                 <Route path="/reviews" element={<Reviews/>}/>
+                <Route path="/privacy" element={<Privacy/>}/>
             </Routes>
         </Router>
     );
