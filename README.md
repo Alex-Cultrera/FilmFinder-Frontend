@@ -22,4 +22,4 @@ Website: https://codercultrera-filmfinder.com
 
 ## Third-party APIs
 * Google OAuth2
-* Omdb
+* OMDb
